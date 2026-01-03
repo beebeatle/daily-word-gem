@@ -1,10 +1,10 @@
 import { getWordOfTheDay, formatDate, words, Word } from "@/data/words";
 import Header from "@/components/Header";
 import WordCard from "@/components/WordCard";
+import UserMenu from "@/components/UserMenu";
 import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import { Shuffle } from "lucide-react";
-
 const Index = () => {
   const [currentWord, setCurrentWord] = useState<Word>(getWordOfTheDay);
   const [wordKey, setWordKey] = useState(0);
@@ -27,6 +27,11 @@ const Index = () => {
           backgroundSize: '32px 32px'
         }}
       />
+      
+      {/* User Menu */}
+      <div className="absolute top-4 right-4 z-20">
+        <UserMenu />
+      </div>
       
       <main className="relative z-10 px-6 py-12 md:py-20">
         <div className="max-w-4xl mx-auto">
