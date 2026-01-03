@@ -4,7 +4,11 @@ import WordCard from "@/components/WordCard";
 import UserMenu from "@/components/UserMenu";
 import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
-import { Shuffle } from "lucide-react";
+import { Shuffle, Lightbulb } from "lucide-react";
+
+// TODO: Replace with your actual Nolt board URL
+const NOLT_URL = "https://your-app.nolt.io";
+
 const Index = () => {
   const [currentWord, setCurrentWord] = useState<Word>(getWordOfTheDay);
   const [wordKey, setWordKey] = useState(0);
@@ -28,8 +32,19 @@ const Index = () => {
         }}
       />
       
-      {/* User Menu */}
-      <div className="absolute top-4 right-4 z-20">
+      {/* Top bar */}
+      <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between">
+        {/* Feature Requests Link */}
+        <a
+          href={NOLT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300 font-sans text-xs font-medium"
+        >
+          <Lightbulb className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
+          Feature Requests
+        </a>
+        
         <UserMenu />
       </div>
       
