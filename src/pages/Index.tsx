@@ -6,8 +6,7 @@ import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import { Shuffle, Lightbulb } from "lucide-react";
 
-// TODO: Replace with your actual Nolt board URL
-const NOLT_URL = "https://your-app.nolt.io";
+const NOLT_URL = "https://worddelight.nolt.io";
 
 const Index = () => {
   const [currentWord, setCurrentWord] = useState<Word>(getWordOfTheDay);
