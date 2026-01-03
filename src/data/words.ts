@@ -9,124 +9,124 @@ export interface Word {
 
 export const words: Word[] = [
   {
-    word: "Petrichor",
-    pronunciation: "/ˈpetrɪkɔːr/",
+    word: "Serendipity",
+    pronunciation: "/ˌserənˈdɪpɪti/",
     partOfSpeech: "noun",
-    definition: "The earthy, pleasant scent produced when rain falls on dry soil, particularly after a prolonged period of warm, dry weather.",
-    example: "After weeks of drought, the first drops of rain released a wave of petrichor that made everyone pause and breathe deeply.",
-    etymology: "Coined in 1964 from Greek petra (stone) + ichor (the fluid flowing in the veins of the gods)."
+    definition: "The occurrence of events by chance in a happy or beneficial way; a fortunate accident that leads to unexpected discovery.",
+    example: "It was pure serendipity that she found her dream job while getting coffee at a café.",
+    etymology: "Coined by Horace Walpole in 1754, from the Persian fairy tale 'The Three Princes of Serendip' whose heroes made discoveries by accident."
   },
   {
-    word: "Sonder",
-    pronunciation: "/ˈsɒndər/",
-    partOfSpeech: "noun",
-    definition: "The profound realization that each passerby has a life as vivid and complex as your own, with their own ambitions, worries, and inner monologues.",
-    example: "Standing in the crowded train station, she felt a wave of sonder wash over her as she watched hundreds of strangers rushing past.",
-    etymology: "Coined by John Koenig in The Dictionary of Obscure Sorrows, possibly from German sonder (special) or French sonder (to probe)."
-  },
-  {
-    word: "Vellichor",
-    pronunciation: "/ˈvelɪkɔːr/",
-    partOfSpeech: "noun",
-    definition: "The strange wistfulness of used bookstores, which are somehow infused with the passage of time and filled with thousands of old books you'll never have time to read.",
-    example: "The vellichor of the dusty antique shop drew her in, surrounded by leather-bound volumes and forgotten stories.",
-    etymology: "A neologism combining vellum (parchment) with the -ichor suffix, evoking the essence that flows through old books."
-  },
-  {
-    word: "Eudaimonia",
-    pronunciation: "/juːdaɪˈmoʊniə/",
-    partOfSpeech: "noun",
-    definition: "A state of flourishing and living well through virtuous action; the highest human good according to Aristotelian philosophy.",
-    example: "She pursued eudaimonia not through wealth, but through meaningful work and nurturing deep relationships.",
-    etymology: "From Greek eu (good) + daimōn (spirit), literally meaning 'good spirit' or 'having a good guardian spirit'."
-  },
-  {
-    word: "Hiraeth",
-    pronunciation: "/hɪəraɪθ/",
-    partOfSpeech: "noun",
-    definition: "A deep longing for a home you cannot return to, or perhaps one that never existed; a homesickness for a place, time, or feeling that may be gone forever.",
-    example: "Every autumn, he felt an inexplicable hiraeth for the village where he spent childhood summers.",
-    etymology: "Welsh word with no direct English translation, combining longing, nostalgia, and grief for a lost home or era."
-  },
-  {
-    word: "Sillage",
-    pronunciation: "/siːˈjɑːʒ/",
-    partOfSpeech: "noun",
-    definition: "The lingering trace of perfume left in the air by someone who has passed by; the impression made in space after something or someone is gone.",
-    example: "Long after she left the room, her sillage remained—a whisper of jasmine and sandalwood.",
-    etymology: "From French, literally meaning 'wake' (as of a ship), derived from siller (to sail through)."
-  },
-  {
-    word: "Phosphene",
-    pronunciation: "/ˈfɒsfiːn/",
-    partOfSpeech: "noun",
-    definition: "The luminous impressions produced by mechanical stimulation of the retina; the stars and colors you see when you rub your closed eyes.",
-    example: "Pressing his palms against his tired eyes, he watched phosphenes dance like tiny galaxies behind his eyelids.",
-    etymology: "From Greek phos (light) + phainein (to show), first used in the 19th century."
-  },
-  {
-    word: "Apricity",
-    pronunciation: "/əˈprɪsɪti/",
-    partOfSpeech: "noun",
-    definition: "The warmth of the sun in winter; the pleasant feeling of basking in warm sunlight during cold weather.",
-    example: "Despite the frost on the ground, she found a bench bathed in apricity and lingered there until noon.",
-    etymology: "From Latin apricus (warmed by the sun), an archaic English word from the 17th century."
-  },
-  {
-    word: "Selcouth",
-    pronunciation: "/ˈselkuːθ/",
+    word: "Ephemeral",
+    pronunciation: "/ɪˈfemərəl/",
     partOfSpeech: "adjective",
-    definition: "Unfamiliar, rare, strange, and yet marvelous; describing something wondrous that is not commonly encountered.",
-    example: "The aurora borealis was a selcouth sight that left the travelers speechless with wonder.",
-    etymology: "Old English seldcūþ, from seld (rare) + cūþ (known); literally 'rarely known'."
+    definition: "Lasting for only a short time; fleeting and transitory, like cherry blossoms or morning dew.",
+    example: "The ephemeral beauty of the sunset reminded her to appreciate life's passing moments.",
+    etymology: "From Greek ephēmeros, meaning 'lasting only a day,' from epi (on) + hēmera (day)."
   },
   {
-    word: "Chrysalism",
-    pronunciation: "/ˈkrɪsəlɪzəm/",
-    partOfSpeech: "noun",
-    definition: "The amniotic tranquility of being indoors during a thunderstorm, listening to rain and wind while feeling warm and sheltered.",
-    example: "With tea in hand and the storm raging outside, she surrendered to the deep chrysalism of the afternoon.",
-    etymology: "From chrysalis, evoking the protected, transformative space of a cocoon; coined in The Dictionary of Obscure Sorrows."
+    word: "Mellifluous",
+    pronunciation: "/meˈlɪfluəs/",
+    partOfSpeech: "adjective",
+    definition: "Sweet-sounding; pleasingly smooth and musical to the ear, often describing a voice or melody.",
+    example: "His mellifluous voice made even the most mundane announcements sound like poetry.",
+    etymology: "From Latin mellifluus, from mel (honey) + fluere (to flow), literally 'flowing with honey.'"
   },
   {
-    word: "Aeipathy",
-    pronunciation: "/aɪˈɪpəθi/",
+    word: "Wanderlust",
+    pronunciation: "/ˈwɒndərlʌst/",
     partOfSpeech: "noun",
-    definition: "An enduring and consuming passion; a love or enthusiasm that persists throughout one's entire life.",
-    example: "His aeipathy for astronomy began at age seven and never wavered, guiding him through decades of research.",
-    etymology: "From Greek aei (always) + pathos (feeling), describing an everlasting emotional state."
+    definition: "A strong, innate desire to travel and explore the world; an irresistible urge to wander.",
+    example: "Her wanderlust led her to quit her office job and backpack through South America.",
+    etymology: "From German Wanderlust, combining wandern (to wander) + Lust (desire), adopted into English in the early 20th century."
   },
   {
-    word: "Onism",
-    pronunciation: "/ˈoʊnɪzəm/",
-    partOfSpeech: "noun",
-    definition: "The frustration of being stuck in just one body, inhabiting only one place at a time, unable to experience all the places and lives you could have known.",
-    example: "Scrolling through travel photos, she felt the familiar ache of onism—longing to be everywhere at once.",
-    etymology: "Coined by John Koenig, derived from the concept of being 'one' singular consciousness in an infinite world."
+    word: "Eloquent",
+    pronunciation: "/ˈeləkwənt/",
+    partOfSpeech: "adjective",
+    definition: "Fluent, persuasive, and expressive in speaking or writing; able to convey meaning beautifully.",
+    example: "Her eloquent speech moved the audience to tears and standing ovations.",
+    etymology: "From Latin eloquens, from eloqui (to speak out), combining e- (out) + loqui (to speak)."
   },
   {
-    word: "Psithurism",
-    pronunciation: "/ˈsɪθjʊrɪzəm/",
-    partOfSpeech: "noun",
-    definition: "The sound of wind whispering through leaves and rustling the trees; nature's own form of white noise.",
-    example: "The psithurism of the ancient oaks created a soothing backdrop for her afternoon reading.",
-    etymology: "From Greek psithuros (whispering), capturing the gentle susurration of foliage in the breeze."
+    word: "Resilient",
+    pronunciation: "/rɪˈzɪliənt/",
+    partOfSpeech: "adjective",
+    definition: "Able to recover quickly from difficulties; having the capacity to spring back into shape after being bent or stretched.",
+    example: "Despite facing numerous setbacks, she remained resilient and eventually achieved her goals.",
+    etymology: "From Latin resilire, meaning 'to leap back,' from re- (back) + salire (to jump)."
   },
   {
-    word: "Meraki",
-    pronunciation: "/meˈrɑːki/",
+    word: "Nostalgia",
+    pronunciation: "/nɒˈstældʒə/",
     partOfSpeech: "noun",
-    definition: "The soul, creativity, and love put into something; doing work with devotion and pouring yourself entirely into a task.",
-    example: "Every brushstroke revealed her meraki—she painted not just with skill, but with her whole being.",
-    etymology: "Modern Greek μεράκι, possibly from Turkish merak (labor of love), describing creative dedication."
+    definition: "A sentimental longing for the past; a bittersweet affection for a period, place, or experience from one's memory.",
+    example: "The smell of cinnamon cookies filled him with nostalgia for childhood holidays.",
+    etymology: "From Greek nostos (homecoming) + algos (pain), originally coined as a medical term for homesickness in 1688."
   },
   {
-    word: "Querencia",
-    pronunciation: "/keˈɾensja/",
+    word: "Luminous",
+    pronunciation: "/ˈluːmɪnəs/",
+    partOfSpeech: "adjective",
+    definition: "Full of or shedding light; bright, radiant, or glowing; also describing something intellectually brilliant.",
+    example: "The luminous full moon cast silver shadows across the sleeping garden.",
+    etymology: "From Latin luminosus, from lumen (light), related to lucere (to shine)."
+  },
+  {
+    word: "Enigma",
+    pronunciation: "/ɪˈnɪɡmə/",
     partOfSpeech: "noun",
-    definition: "A place from which one's strength is drawn; a sanctuary where you feel most authentically yourself and at home.",
-    example: "The old library had become her querencia—a refuge where she could think clearly and feel whole.",
-    etymology: "Spanish, from querer (to desire/love), originally referring to the spot in a bullring where the bull feels safest."
+    definition: "A person or thing that is mysterious, puzzling, or difficult to understand.",
+    example: "Despite years of friendship, he remained an enigma—always surprising and never predictable.",
+    etymology: "From Greek ainigma, from ainissesthai (to speak in riddles), from ainos (fable)."
+  },
+  {
+    word: "Ethereal",
+    pronunciation: "/ɪˈθɪəriəl/",
+    partOfSpeech: "adjective",
+    definition: "Extremely delicate and light; seeming too perfect for this world; heavenly or celestial.",
+    example: "The dancer moved with an ethereal grace that made her seem to float above the stage.",
+    etymology: "From Latin aethereus, from Greek aitherios (of the upper air), from aithēr (the pure upper air)."
+  },
+  {
+    word: "Sanguine",
+    pronunciation: "/ˈsæŋɡwɪn/",
+    partOfSpeech: "adjective",
+    definition: "Optimistic and positive, especially in a difficult situation; cheerfully confident about the future.",
+    example: "Despite the challenging forecast, she remained sanguine about the project's success.",
+    etymology: "From Latin sanguineus (of blood), based on medieval belief that blood was associated with cheerful temperament."
+  },
+  {
+    word: "Quintessential",
+    pronunciation: "/ˌkwɪntɪˈsenʃəl/",
+    partOfSpeech: "adjective",
+    definition: "Representing the most perfect or typical example of a quality or class; the purest essence of something.",
+    example: "The cozy café was the quintessential Parisian experience she had always dreamed of.",
+    etymology: "From medieval Latin quinta essentia (fifth essence), referring to a substance beyond the four elements."
+  },
+  {
+    word: "Ineffable",
+    pronunciation: "/ɪnˈefəbl/",
+    partOfSpeech: "adjective",
+    definition: "Too great or extreme to be expressed or described in words; beyond verbal expression.",
+    example: "The view from the mountaintop filled her with an ineffable sense of peace.",
+    etymology: "From Latin ineffabilis, from in- (not) + effabilis (utterable), from effari (to speak out)."
+  },
+  {
+    word: "Reverence",
+    pronunciation: "/ˈrevərəns/",
+    partOfSpeech: "noun",
+    definition: "Deep respect and admiration for someone or something; a feeling of awe and devotion.",
+    example: "She spoke of her grandmother with such reverence that everyone in the room fell silent.",
+    etymology: "From Latin reverentia, from revereri (to stand in awe of), from re- + vereri (to fear, respect)."
+  },
+  {
+    word: "Resplendent",
+    pronunciation: "/rɪˈsplendənt/",
+    partOfSpeech: "adjective",
+    definition: "Shining brilliantly; dressed in rich, impressive attire; dazzling in appearance.",
+    example: "The bride looked resplendent in her grandmother's vintage lace wedding gown.",
+    etymology: "From Latin resplendere, from re- (intensive) + splendere (to shine, glitter)."
   }
 ];
 
