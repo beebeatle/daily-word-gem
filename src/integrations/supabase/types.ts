@@ -143,6 +143,33 @@ export type Database = {
         }
         Relationships: []
       }
+      word_displays: {
+        Row: {
+          created_at: string
+          id: string
+          session_id: string
+          user_email: string | null
+          user_id: string | null
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          session_id: string
+          user_email?: string | null
+          user_id?: string | null
+          word: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          session_id?: string
+          user_email?: string | null
+          user_id?: string | null
+          word?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
