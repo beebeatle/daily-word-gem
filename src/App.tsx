@@ -13,6 +13,7 @@ import ActivityLog from "./pages/ActivityLog";
 import Users from "./pages/Users";
 import About from "./pages/About";
 import Changelog from "./pages/Changelog";
+import WordDisplays from "./pages/WordDisplays";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,8 @@ const App = () => (
               <Route path="/users" element={<Users />} />
               <Route path="/about" element={<About />} />
               <Route path="/changelog" element={<Changelog />} />
+              <Route path="/word-displays" element={<WordDisplays />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
