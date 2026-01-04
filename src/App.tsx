@@ -11,6 +11,7 @@ import Preferences from "./pages/Preferences";
 import Admin from "./pages/Admin";
 import ActivityLog from "./pages/ActivityLog";
 import Users from "./pages/Users";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/activity-log" element={<ActivityLog />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/about" element={<About />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

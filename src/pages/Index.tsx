@@ -4,7 +4,8 @@ import WordCard from "@/components/WordCard";
 import UserMenu from "@/components/UserMenu";
 import { motion } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
-import { Shuffle, Lightbulb } from "lucide-react";
+import { Shuffle, Lightbulb, Info } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { useActivityLog } from "@/hooks/useActivityLogger";
 
@@ -60,16 +61,25 @@ const Index = () => {
 
       {/* Top bar */}
       <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between">
-        {/* Feature Requests Link */}
-        <a
-          href={NOLT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300 font-sans text-xs font-medium"
-        >
-          <Lightbulb className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
-          Request a new feature
-        </a>
+        {/* Left side links */}
+        <div className="flex items-center gap-2">
+          <Link
+            to="/about"
+            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300 font-sans text-xs font-medium"
+          >
+            <Info className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
+            About
+          </Link>
+          <a
+            href={NOLT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300 font-sans text-xs font-medium"
+          >
+            <Lightbulb className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
+            Request a new feature
+          </a>
+        </div>
 
         <UserMenu />
       </div>
