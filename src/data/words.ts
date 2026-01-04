@@ -270,14 +270,22 @@ export const words: Word[] = [
   }
 ];
 
-export function getWordOfTheDay(): Word {
+export function getWordOfTheDay(types?: string[]): Word {
+  // Filter words by types if provided
+  const filteredWords = types && types.length > 0 
+    ? words.filter(word => types.includes(word.type))
+    : words;
+  
+  // Fallback to all words if filter returns empty
+  const wordPool = filteredWords.length > 0 ? filteredWords : words;
+  
   // Use the current date to deterministically select a word
   const today = new Date();
   const startOfYear = new Date(today.getFullYear(), 0, 0);
   const diff = today.getTime() - startOfYear.getTime();
   const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
   
-  return words[dayOfYear % words.length];
+  return wordPool[dayOfYear % wordPool.length];
 }
 
 export function getWordsByType(types: string[]): Word[] {
