@@ -20,6 +20,7 @@ interface UserProfile {
   id: string;
   user_id: string;
   display_name: string | null;
+  email: string | null;
   created_at: string;
   role: string | null;
 }
@@ -120,7 +121,7 @@ const Users = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User ID</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead>Display Name</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Joined</TableHead>
@@ -136,8 +137,8 @@ const Users = () => {
               ) : (
                 users.map((u) => (
                   <TableRow key={u.id}>
-                    <TableCell className="font-mono text-sm">
-                      {u.user_id.slice(0, 8)}...
+                    <TableCell className="text-sm">
+                      {u.email || <span className="text-muted-foreground italic">No email</span>}
                     </TableCell>
                     <TableCell>
                       {u.display_name || <span className="text-muted-foreground italic">Not set</span>}
