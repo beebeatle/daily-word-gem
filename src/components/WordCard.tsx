@@ -111,7 +111,7 @@ const WordCard = ({ word }: WordCardProps) => {
         transition={{ delay: 1, duration: 0.6 }}
         className="text-center"
       >
-        <span className="text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary/10 text-primary">
+        <span className="text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground">
           {word.type}
         </span>
       </motion.div>
