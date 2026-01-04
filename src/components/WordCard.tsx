@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useActivityLog } from "@/hooks/useActivityLogger";
 
 const WORD_TYPES = [
   { value: "general", label: "General" },
@@ -22,12 +23,18 @@ interface WordCardProps {
 }
 
 const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => {
+  const { logAction } = useActivityLog();
+
   const speakWord = () => {
     const utterance = new SpeechSynthesisUtterance(word.word);
     utterance.rate = 0.8;
     speechSynthesis.speak(utterance);
   };
 
+  const handleCategorySelect = (category: string) => {
+    logAction('dropdown_select', `Category: ${category}`);
+    onCategoryChange?.(category);
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -137,7 +144,7 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
             {WORD_TYPES.map((type) => (
               <DropdownMenuItem
                 key={type.value}
-                onClick={() => onCategoryChange?.(type.value)}
+                onClick={() => handleCategorySelect(type.value)}
                 className="cursor-pointer"
               >
                 {type.label}
