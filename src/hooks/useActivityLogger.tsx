@@ -61,11 +61,13 @@ export const useActivityLogger = () => {
   ) => {
     try {
       const sessionId = getSessionId();
+      const visitorId = getVisitorId();
       
       await supabase.from('user_actions').insert({
         user_id: user?.id || null,
         user_email: user?.email || null,
         session_id: sessionId,
+        visitor_id: visitorId,
         action_type: actionType,
         page_path: location.pathname,
         element_info: elementInfo || null,
