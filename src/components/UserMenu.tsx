@@ -2,7 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAdmin } from '@/hooks/useAdmin';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useNavigate } from 'react-router-dom';
-import { User, LogOut, Settings, Shield } from 'lucide-react';
+import { User, LogOut, Settings, Shield, Activity } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,6 +61,12 @@ const UserMenu = () => {
           <Settings className="w-4 h-4 mr-2" />
           Preferences
         </DropdownMenuItem>
+        {(isAdmin || role === 'moderator') && (
+          <DropdownMenuItem onClick={() => navigate('/activity-log')} className="cursor-pointer">
+            <Activity className="w-4 h-4 mr-2" />
+            Activity Log
+          </DropdownMenuItem>
+        )}
         {isAdmin && (
           <DropdownMenuItem onClick={() => navigate('/admin')} className="cursor-pointer">
             <Shield className="w-4 h-4 mr-2" />
