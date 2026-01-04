@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { BookOpen, Users, Eye, MousePointer, BookText, FolderOpen, ArrowLeft, Quote, Target, BarChart3, MessageSquare } from "lucide-react";
+import { BookOpen, Users, Eye, MousePointer, BookText, FolderOpen, ArrowLeft, Quote, Target, BarChart3, MessageSquare, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { words } from "@/data/words";
 
@@ -10,6 +10,7 @@ interface Stats {
   uniqueVisitors: number;
   pageViews: number;
   wordsDisplayed: number;
+  uniqueWordsDisplayed: number;
   wordCategories: number;
 }
 
@@ -26,6 +27,7 @@ const About = () => {
     uniqueVisitors: 0,
     pageViews: 0,
     wordsDisplayed: 0,
+    uniqueWordsDisplayed: 0,
     wordCategories: 0,
   });
   const [wordDisplays, setWordDisplays] = useState<WordDisplay[]>([]);
@@ -63,6 +65,12 @@ const About = () => {
           .order("created_at", { ascending: false })
           .limit(20);
 
+        // Get unique words displayed
+        const { data: allWordDisplays } = await supabase
+          .from("word_displays")
+          .select("word");
+        const uniqueWordsDisplayed = new Set(allWordDisplays?.map((w) => w.word)).size;
+
         if (recentDisplays) {
           setWordDisplays(recentDisplays);
         }
@@ -75,6 +83,7 @@ const About = () => {
           uniqueVisitors,
           pageViews: pageViewCount || 0,
           wordsDisplayed: wordDisplayCount || 0,
+          uniqueWordsDisplayed,
           wordCategories: categories.size,
         });
       } catch (error) {
@@ -92,6 +101,7 @@ const About = () => {
     { label: "Unique Visitors", value: stats.uniqueVisitors, icon: Eye },
     { label: "Page Views", value: stats.pageViews, icon: MousePointer },
     { label: "Words Displayed", value: stats.wordsDisplayed, icon: BookText },
+    { label: "Unique Words Displayed", value: stats.uniqueWordsDisplayed, icon: Sparkles },
     { label: "Word Categories", value: stats.wordCategories, icon: FolderOpen },
   ];
 
