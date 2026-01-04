@@ -83,7 +83,21 @@ export const useActivityLogger = () => {
     logAction('button_click', buttonName);
   }, [logAction]);
 
-  return { logButtonClick, logAction };
+  const logWordDisplay = useCallback(async (word: string) => {
+    try {
+      const sessionId = getSessionId();
+      await supabase.from('word_displays').insert({
+        word,
+        user_id: user?.id || null,
+        user_email: user?.email || null,
+        session_id: sessionId,
+      });
+    } catch (error) {
+      console.error('Failed to log word display:', error);
+    }
+  }, [user]);
+
+  return { logButtonClick, logAction, logWordDisplay };
 };
 
 // Context for global access
@@ -92,6 +106,7 @@ import { createContext, useContext, ReactNode } from 'react';
 interface ActivityLoggerContextType {
   logButtonClick: (buttonName: string) => void;
   logAction: (actionType: string, elementInfo?: string) => void;
+  logWordDisplay: (word: string) => void;
 }
 
 const ActivityLoggerContext = createContext<ActivityLoggerContextType | undefined>(undefined);

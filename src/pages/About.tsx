@@ -13,6 +13,13 @@ interface Stats {
   wordCategories: number;
 }
 
+interface WordDisplay {
+  id: string;
+  word: string;
+  user_email: string | null;
+  created_at: string;
+}
+
 const About = () => {
   const [stats, setStats] = useState<Stats>({
     totalUsers: 0,
@@ -21,6 +28,7 @@ const About = () => {
     wordsDisplayed: 0,
     wordCategories: 0,
   });
+  const [wordDisplays, setWordDisplays] = useState<WordDisplay[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,15 +51,21 @@ const About = () => {
           .select("*", { count: "exact", head: true })
           .eq("action_type", "page_visit");
 
-        // Get words displayed (button_click with 'Try another word' or initial page loads)
-        const { count: shuffleCount } = await supabase
-          .from("user_actions")
-          .select("*", { count: "exact", head: true })
-          .eq("action_type", "button_click")
-          .eq("element_info", "Try another word");
+        // Get words displayed count from word_displays table
+        const { count: wordDisplayCount } = await supabase
+          .from("word_displays")
+          .select("*", { count: "exact", head: true });
 
-        // Words displayed = page views (initial word) + shuffle clicks
-        const wordsDisplayed = (pageViewCount || 0) + (shuffleCount || 0);
+        // Get recent word displays for the table
+        const { data: recentDisplays } = await supabase
+          .from("word_displays")
+          .select("id, word, user_email, created_at")
+          .order("created_at", { ascending: false })
+          .limit(20);
+
+        if (recentDisplays) {
+          setWordDisplays(recentDisplays);
+        }
 
         // Get unique word categories from the words data
         const categories = new Set(words.map((w) => w.type));
@@ -60,7 +74,7 @@ const About = () => {
           totalUsers: userCount || 0,
           uniqueVisitors,
           pageViews: pageViewCount || 0,
-          wordsDisplayed,
+          wordsDisplayed: wordDisplayCount || 0,
           wordCategories: categories.size,
         });
       } catch (error) {
@@ -246,6 +260,57 @@ const About = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Word Displays Table */}
+            {wordDisplays.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+                className="mt-10"
+              >
+                <h3 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
+                  Recent Word Displays
+                </h3>
+                <div className="bg-card border border-border rounded-xl overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-border bg-muted/30">
+                          <th className="px-4 py-3 text-left font-sans text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            Word
+                          </th>
+                          <th className="px-4 py-3 text-left font-sans text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            Timestamp
+                          </th>
+                          <th className="px-4 py-3 text-left font-sans text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            User
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {wordDisplays.map((display, index) => (
+                          <tr
+                            key={display.id}
+                            className={index !== wordDisplays.length - 1 ? "border-b border-border" : ""}
+                          >
+                            <td className="px-4 py-3 font-serif text-foreground font-medium">
+                              {display.word}
+                            </td>
+                            <td className="px-4 py-3 font-sans text-sm text-muted-foreground">
+                              {new Date(display.created_at).toLocaleString()}
+                            </td>
+                            <td className="px-4 py-3 font-sans text-sm text-muted-foreground">
+                              {display.user_email || "Guest"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </motion.section>
 
           {/* Decorative Divider */}

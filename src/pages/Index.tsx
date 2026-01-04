@@ -13,18 +13,20 @@ const NOLT_URL = "https://worddelight.nolt.io";
 
 const Index = () => {
   const { preferredWordTypes, loading } = useUserPreferences();
-  const { logButtonClick } = useActivityLog();
+  const { logButtonClick, logWordDisplay } = useActivityLog();
   const [currentWord, setCurrentWord] = useState<Word | null>(null);
   const [wordKey, setWordKey] = useState(0);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const currentDate = formatDate();
 
-  // Set initial word based on preferences
+  // Set initial word based on preferences and log it
   useEffect(() => {
     if (!loading) {
-      setCurrentWord(getWordOfTheDay(preferredWordTypes));
+      const word = getWordOfTheDay(preferredWordTypes);
+      setCurrentWord(word);
+      logWordDisplay(word.word);
     }
-  }, [loading, preferredWordTypes]);
+  }, [loading, preferredWordTypes, logWordDisplay]);
 
   const shuffleWord = useCallback(() => {
     logButtonClick('Try another word');
@@ -36,7 +38,8 @@ const Index = () => {
     const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
     setCurrentWord(randomWord);
     setWordKey((prev) => prev + 1);
-  }, [currentWord?.word, preferredWordTypes, activeCategory, logButtonClick]);
+    logWordDisplay(randomWord.word);
+  }, [currentWord?.word, preferredWordTypes, activeCategory, logButtonClick, logWordDisplay]);
 
   const handleCategoryChange = useCallback((category: string) => {
     setActiveCategory(category);
@@ -45,8 +48,9 @@ const Index = () => {
       const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
       setCurrentWord(randomWord);
       setWordKey((prev) => prev + 1);
+      logWordDisplay(randomWord.word);
     }
-  }, []);
+  }, [logWordDisplay]);
 
   return (
     <div className="min-h-screen bg-background">
