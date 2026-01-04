@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { BookOpen, Users, Eye, MousePointer, BookText, FolderOpen, ArrowLeft } from "lucide-react";
+import { BookOpen, Users, Eye, MousePointer, BookText, FolderOpen, ArrowLeft, Quote } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { words } from "@/data/words";
 
@@ -80,6 +80,25 @@ const About = () => {
     { label: "Words Displayed", value: stats.wordsDisplayed, icon: BookText },
     { label: "Word Categories", value: stats.wordCategories, icon: FolderOpen },
   ];
+
+  const testimonials = [
+    {
+      quote: "Word Delight has become my morning ritual. I've learned so many beautiful words that I now use in my writing.",
+      author: "Sarah M.",
+      role: "Content Writer",
+    },
+    {
+      quote: "As a non-native English speaker, this app has been invaluable for expanding my vocabulary in a fun, bite-sized way.",
+      author: "Marcus K.",
+      role: "Software Engineer",
+    },
+    {
+      quote: "I love sharing the word of the day with my students. It sparks wonderful discussions about language and etymology.",
+      author: "Dr. Elena R.",
+      role: "English Professor",
+    },
+  ];
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -190,7 +209,56 @@ const About = () => {
             </div>
           </motion.section>
 
-          {/* Footer */}
+          {/* Decorative Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 1.1, duration: 0.8 }}
+            className="h-px bg-gradient-to-r from-transparent via-border to-transparent my-16"
+          />
+
+          {/* Testimonials Section */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+          >
+            <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8 text-center">
+              What Our Users Say
+            </h2>
+            
+            <div className="grid gap-6">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.author}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.3 + index * 0.15, duration: 0.5 }}
+                  className="bg-card border border-border rounded-xl p-6 relative"
+                >
+                  <Quote className="w-8 h-8 text-primary/20 absolute top-4 right-4" />
+                  <p className="text-foreground/90 leading-relaxed italic mb-4 pr-8">
+                    "{testimonial.quote}"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="font-serif text-primary font-semibold">
+                        {testimonial.author.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-sans text-sm font-medium text-foreground">
+                        {testimonial.author}
+                      </p>
+                      <p className="font-sans text-xs text-muted-foreground">
+                        {testimonial.role}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
           <motion.footer
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
