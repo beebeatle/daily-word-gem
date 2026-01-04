@@ -125,8 +125,8 @@ const About = () => {
 
   const tableOfContents = [
     { id: "mission", label: "Our Mission", icon: Target },
-    { id: "statistics", label: "Usage Statistics", icon: BarChart3 },
     { id: "testimonials", label: "Testimonials", icon: MessageSquare },
+    { id: "statistics", label: "Usage Statistics", icon: BarChart3 },
   ];
 
   const scrollToSection = (id: string) => {
@@ -235,12 +235,65 @@ const About = () => {
             className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-16"
           />
 
+          {/* Testimonials Section */}
+          <motion.section
+            id="testimonials"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="scroll-mt-24"
+          >
+            <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8 text-center">
+              What Our Users Say
+            </h2>
+            
+            <div className="grid gap-6">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.author}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + index * 0.15, duration: 0.5 }}
+                  className="bg-card border border-border rounded-xl p-6 relative"
+                >
+                  <Quote className="w-8 h-8 text-primary/20 absolute top-4 right-4" />
+                  <p className="text-foreground/90 leading-relaxed italic mb-4 pr-8">
+                    "{testimonial.quote}"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="font-serif text-primary font-semibold">
+                        {testimonial.author.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-sans text-sm font-medium text-foreground">
+                        {testimonial.author}
+                      </p>
+                      <p className="font-sans text-xs text-muted-foreground">
+                        {testimonial.role}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* Decorative Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 1.0, duration: 0.8 }}
+            className="h-px bg-gradient-to-r from-transparent via-border to-transparent my-16"
+          />
+
           {/* Statistics Section */}
           <motion.section
             id="statistics"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            transition={{ delay: 1.1, duration: 0.6 }}
             className="scroll-mt-24"
           >
             <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8 text-center">
@@ -253,7 +306,7 @@ const About = () => {
                   key={item.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
+                  transition={{ delay: 1.2 + index * 0.1, duration: 0.5 }}
                   className="bg-card border border-border rounded-xl p-6 text-center"
                 >
                   <item.icon className="w-5 h-5 text-primary mx-auto mb-3" />
@@ -276,7 +329,7 @@ const About = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.0, duration: 0.5 }}
+                transition={{ delay: 1.8, duration: 0.5 }}
                 className="mt-10"
               >
                 <h3 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
@@ -321,59 +374,6 @@ const About = () => {
                 </div>
               </motion.div>
             )}
-          </motion.section>
-
-          {/* Decorative Divider */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 1.1, duration: 0.8 }}
-            className="h-px bg-gradient-to-r from-transparent via-border to-transparent my-16"
-          />
-
-          {/* Testimonials Section */}
-          <motion.section
-            id="testimonials"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            className="scroll-mt-24"
-          >
-            <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8 text-center">
-              What Our Users Say
-            </h2>
-            
-            <div className="grid gap-6">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.author}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.3 + index * 0.15, duration: 0.5 }}
-                  className="bg-card border border-border rounded-xl p-6 relative"
-                >
-                  <Quote className="w-8 h-8 text-primary/20 absolute top-4 right-4" />
-                  <p className="text-foreground/90 leading-relaxed italic mb-4 pr-8">
-                    "{testimonial.quote}"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="font-serif text-primary font-semibold">
-                        {testimonial.author.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="font-sans text-sm font-medium text-foreground">
-                        {testimonial.author}
-                      </p>
-                      <p className="font-sans text-xs text-muted-foreground">
-                        {testimonial.role}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </motion.section>
           <motion.footer
             initial={{ opacity: 0 }}
