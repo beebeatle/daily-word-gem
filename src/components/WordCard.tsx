@@ -26,6 +26,7 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
   const { logAction } = useActivityLog();
 
   const speakWord = () => {
+    logAction('button_click', 'Pronunciation');
     const utterance = new SpeechSynthesisUtterance(word.word);
     utterance.rate = 0.8;
     speechSynthesis.speak(utterance);
