@@ -1,24 +1,35 @@
-import { getWordOfTheDay, formatDate, words, Word } from "@/data/words";
+import { getWordOfTheDay, formatDate, words, Word, getWordsByType } from "@/data/words";
 import Header from "@/components/Header";
 import WordCard from "@/components/WordCard";
 import UserMenu from "@/components/UserMenu";
 import { motion } from "framer-motion";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Shuffle, Lightbulb } from "lucide-react";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 const NOLT_URL = "https://worddelight.nolt.io";
 
 const Index = () => {
-  const [currentWord, setCurrentWord] = useState<Word>(getWordOfTheDay);
+  const { preferredWordTypes, loading } = useUserPreferences();
+  const [currentWord, setCurrentWord] = useState<Word | null>(null);
   const [wordKey, setWordKey] = useState(0);
   const currentDate = formatDate();
 
+  // Set initial word based on preferences
+  useEffect(() => {
+    if (!loading) {
+      setCurrentWord(getWordOfTheDay(preferredWordTypes));
+    }
+  }, [loading, preferredWordTypes]);
+
   const shuffleWord = useCallback(() => {
-    const availableWords = words.filter((w) => w.word !== currentWord.word);
+    const filteredWords = getWordsByType(preferredWordTypes);
+    const wordPool = filteredWords.length > 0 ? filteredWords : words;
+    const availableWords = wordPool.filter((w) => w.word !== currentWord?.word);
     const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
     setCurrentWord(randomWord);
     setWordKey((prev) => prev + 1);
-  }, [currentWord.word]);
+  }, [currentWord?.word, preferredWordTypes]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -50,7 +61,7 @@ const Index = () => {
       <main className="relative z-10 px-6 py-12 md:py-20">
         <div className="max-w-4xl mx-auto">
           <Header date={currentDate} />
-          <WordCard key={wordKey} word={currentWord} />
+          {currentWord && <WordCard key={wordKey} word={currentWord} />}
 
           {/* Shuffle Button */}
           <motion.div
