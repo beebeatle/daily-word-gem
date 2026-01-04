@@ -3,6 +3,17 @@ import { useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 
+// Use localStorage for persistent visitor ID across browser sessions
+const getVisitorId = (): string => {
+  let visitorId = localStorage.getItem('visitor_id');
+  if (!visitorId) {
+    visitorId = crypto.randomUUID();
+    localStorage.setItem('visitor_id', visitorId);
+  }
+  return visitorId;
+};
+
+// Session ID for tracking individual sessions (resets on browser close)
 const getSessionId = (): string => {
   let sessionId = sessionStorage.getItem('activity_session_id');
   if (!sessionId) {
