@@ -6,11 +6,13 @@ import { motion } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { Shuffle, Lightbulb } from "lucide-react";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { useActivityLog } from "@/hooks/useActivityLogger";
 
 const NOLT_URL = "https://worddelight.nolt.io";
 
 const Index = () => {
   const { preferredWordTypes, loading } = useUserPreferences();
+  const { logButtonClick } = useActivityLog();
   const [currentWord, setCurrentWord] = useState<Word | null>(null);
   const [wordKey, setWordKey] = useState(0);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -24,6 +26,7 @@ const Index = () => {
   }, [loading, preferredWordTypes]);
 
   const shuffleWord = useCallback(() => {
+    logButtonClick('Try another word');
     // Use active category if set, otherwise use user preferences
     const typesToUse = activeCategory ? [activeCategory] : preferredWordTypes;
     const filteredWords = getWordsByType(typesToUse);
@@ -32,7 +35,7 @@ const Index = () => {
     const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
     setCurrentWord(randomWord);
     setWordKey((prev) => prev + 1);
-  }, [currentWord?.word, preferredWordTypes, activeCategory]);
+  }, [currentWord?.word, preferredWordTypes, activeCategory, logButtonClick]);
 
   const handleCategoryChange = useCallback((category: string) => {
     setActiveCategory(category);
