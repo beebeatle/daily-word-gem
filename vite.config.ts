@@ -9,10 +9,15 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  define: {
-    __APP_VERSION__: JSON.stringify(new Date().toISOString().split('T')[0]),
-    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
-  },
+  define: (() => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const buildNumber = now.getUTCHours().toString().padStart(2, '0') + now.getUTCMinutes().toString().padStart(2, '0');
+    return {
+      __APP_VERSION__: JSON.stringify(`${date}.${buildNumber}`),
+      __BUILD_TIME__: JSON.stringify(now.toISOString()),
+    };
+  })(),
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
