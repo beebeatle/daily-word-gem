@@ -1,12 +1,26 @@
 import { Word } from "@/data/words";
 import { motion } from "framer-motion";
-import { Volume2 } from "lucide-react";
+import { Volume2, ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const WORD_TYPES = [
+  { value: "general", label: "General" },
+  { value: "academic", label: "Academic" },
+  { value: "creative", label: "Creative" },
+  { value: "business", label: "Business" },
+];
 
 interface WordCardProps {
   word: Word;
+  onCategoryChange?: (category: string) => void;
 }
 
-const WordCard = ({ word }: WordCardProps) => {
+const WordCard = ({ word, onCategoryChange }: WordCardProps) => {
   const speakWord = () => {
     const utterance = new SpeechSynthesisUtterance(word.word);
     utterance.rate = 0.8;
@@ -111,9 +125,25 @@ const WordCard = ({ word }: WordCardProps) => {
         transition={{ delay: 1, duration: 0.6 }}
         className="text-center"
       >
-        <span className="text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground">
-          {word.type}
-        </span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer">
+              {word.type}
+              <ChevronDown className="w-3 h-3" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center">
+            {WORD_TYPES.map((type) => (
+              <DropdownMenuItem
+                key={type.value}
+                onClick={() => onCategoryChange?.(type.value)}
+                className="cursor-pointer"
+              >
+                {type.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </motion.div>
     </motion.div>
   );

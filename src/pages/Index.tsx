@@ -31,6 +31,15 @@ const Index = () => {
     setWordKey((prev) => prev + 1);
   }, [currentWord?.word, preferredWordTypes]);
 
+  const handleCategoryChange = useCallback((category: string) => {
+    const filteredWords = getWordsByType([category]);
+    if (filteredWords.length > 0) {
+      const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
+      setCurrentWord(randomWord);
+      setWordKey((prev) => prev + 1);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Subtle background texture */}
@@ -61,7 +70,7 @@ const Index = () => {
       <main className="relative z-10 px-6 py-12 md:py-20">
         <div className="max-w-4xl mx-auto">
           <Header date={currentDate} />
-          {currentWord && <WordCard key={wordKey} word={currentWord} />}
+          {currentWord && <WordCard key={wordKey} word={currentWord} onCategoryChange={handleCategoryChange} />}
 
           {/* Shuffle Button */}
           <motion.div
