@@ -74,7 +74,7 @@ const Index = () => {
       <main className="relative z-10 px-6 py-12 md:py-20">
         <div className="max-w-4xl mx-auto">
           <Header date={currentDate} />
-          {currentWord && <WordCard key={wordKey} word={currentWord} onCategoryChange={handleCategoryChange} />}
+          {currentWord && <WordCard key={wordKey} word={currentWord} onCategoryChange={handleCategoryChange} isFilterActive={!!activeCategory} />}
 
           {/* Shuffle Button */}
           <motion.div

@@ -18,9 +18,10 @@ const WORD_TYPES = [
 interface WordCardProps {
   word: Word;
   onCategoryChange?: (category: string) => void;
+  isFilterActive?: boolean;
 }
 
-const WordCard = ({ word, onCategoryChange }: WordCardProps) => {
+const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => {
   const speakWord = () => {
     const utterance = new SpeechSynthesisUtterance(word.word);
     utterance.rate = 0.8;
@@ -127,7 +128,7 @@ const WordCard = ({ word, onCategoryChange }: WordCardProps) => {
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer">
+            <button className={`inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer ${isFilterActive ? 'ring-2 ring-foreground' : ''}`}>
               {word.type}
               <ChevronDown className="w-3 h-3" />
             </button>
