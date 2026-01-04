@@ -119,9 +119,12 @@ const Index = () => {
             <p className="font-sans text-xs text-muted-foreground/60 tracking-wide">
               Expand your vocabulary, one word at a time
             </p>
-            <p className="font-sans text-[10px] text-muted-foreground/40">
+            <Link 
+              to="/changelog" 
+              className="font-sans text-[10px] text-muted-foreground/40 hover:text-primary transition-colors"
+            >
               v{__APP_VERSION__}
-            </p>
+            </Link>
           </motion.footer>
         </div>
       </main>
