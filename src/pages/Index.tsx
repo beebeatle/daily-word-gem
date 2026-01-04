@@ -13,6 +13,7 @@ const Index = () => {
   const { preferredWordTypes, loading } = useUserPreferences();
   const [currentWord, setCurrentWord] = useState<Word | null>(null);
   const [wordKey, setWordKey] = useState(0);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const currentDate = formatDate();
 
   // Set initial word based on preferences
@@ -23,15 +24,18 @@ const Index = () => {
   }, [loading, preferredWordTypes]);
 
   const shuffleWord = useCallback(() => {
-    const filteredWords = getWordsByType(preferredWordTypes);
+    // Use active category if set, otherwise use user preferences
+    const typesToUse = activeCategory ? [activeCategory] : preferredWordTypes;
+    const filteredWords = getWordsByType(typesToUse);
     const wordPool = filteredWords.length > 0 ? filteredWords : words;
     const availableWords = wordPool.filter((w) => w.word !== currentWord?.word);
     const randomWord = availableWords[Math.floor(Math.random() * availableWords.length)];
     setCurrentWord(randomWord);
     setWordKey((prev) => prev + 1);
-  }, [currentWord?.word, preferredWordTypes]);
+  }, [currentWord?.word, preferredWordTypes, activeCategory]);
 
   const handleCategoryChange = useCallback((category: string) => {
+    setActiveCategory(category);
     const filteredWords = getWordsByType([category]);
     if (filteredWords.length > 0) {
       const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
