@@ -19,6 +19,7 @@ interface UserProfile {
   id: string;
   user_id: string;
   display_name: string | null;
+  email: string | null;
   created_at: string;
   is_admin: boolean;
 }
@@ -177,8 +178,8 @@ const Admin = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Email</TableHead>
                   <TableHead>Display Name</TableHead>
-                  <TableHead>User ID</TableHead>
                   <TableHead>Joined</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -187,11 +188,11 @@ const Admin = () => {
               <TableBody>
                 {users.map((profile) => (
                   <TableRow key={profile.id}>
+                    <TableCell className="text-sm">
+                      {profile.email || <span className="text-muted-foreground italic">No email</span>}
+                    </TableCell>
                     <TableCell className="font-medium">
                       {profile.display_name || "No name"}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-xs font-mono">
-                      {profile.user_id.slice(0, 8)}...
                     </TableCell>
                     <TableCell>
                       {new Date(profile.created_at).toLocaleDateString()}
