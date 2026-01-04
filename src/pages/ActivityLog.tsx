@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAdmin } from '@/hooks/useAdmin';
 import { useUserRole } from '@/hooks/useUserRole';
 import { supabase } from '@/integrations/supabase/client';
-import { ArrowLeft, Monitor, Smartphone, Tablet, Globe, Mouse, Eye } from 'lucide-react';
+import { ArrowLeft, Monitor, Smartphone, Tablet, Globe, Mouse, Eye, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -113,6 +113,8 @@ const ActivityLog = () => {
         return <Mouse className="w-4 h-4" />;
       case 'page_visit':
         return <Eye className="w-4 h-4" />;
+      case 'dropdown_select':
+        return <ChevronDown className="w-4 h-4" />;
       default:
         return <Globe className="w-4 h-4" />;
     }
@@ -151,6 +153,7 @@ const ActivityLog = () => {
               <SelectItem value="all">All actions</SelectItem>
               <SelectItem value="page_visit">Page visits</SelectItem>
               <SelectItem value="button_click">Button clicks</SelectItem>
+              <SelectItem value="dropdown_select">Dropdown selections</SelectItem>
             </SelectContent>
           </Select>
         </div>
