@@ -114,10 +114,13 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="text-center mt-16 md:mt-20"
+            className="text-center mt-16 md:mt-20 space-y-2"
           >
             <p className="font-sans text-xs text-muted-foreground/60 tracking-wide">
               Expand your vocabulary, one word at a time
+            </p>
+            <p className="font-sans text-[10px] text-muted-foreground/40">
+              v{__APP_VERSION__}
             </p>
           </motion.footer>
         </div>
