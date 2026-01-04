@@ -1,5 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useAdmin } from '@/hooks/useAdmin';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useNavigate } from 'react-router-dom';
 import { User, LogOut, Settings, Shield } from 'lucide-react';
 import {
@@ -10,10 +11,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
   const { isAdmin } = useAdmin();
+  const { role } = useUserRole();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -47,6 +50,11 @@ const UserMenu = () => {
       <DropdownMenuContent align="end" className="w-48">
         <div className="px-2 py-1.5">
           <p className="text-sm font-medium font-sans truncate">{user.email}</p>
+          {role && (
+            <Badge variant="secondary" className="mt-1 text-xs capitalize">
+              {role}
+            </Badge>
+          )}
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => navigate('/preferences')} className="cursor-pointer">
