@@ -51,12 +51,9 @@ const WordCard = ({ word }: WordCardProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-4 flex items-center justify-center gap-3"
+          className="mt-4"
         >
           <span className="part-of-speech">{word.partOfSpeech}</span>
-          <span className="text-xs font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-            {word.type}
-          </span>
         </motion.div>
       </div>
 
@@ -99,11 +96,24 @@ const WordCard = ({ word }: WordCardProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.6 }}
+        className="mb-8"
       >
         <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
           Origin
         </h2>
         <p className="etymology-text">{word.etymology}</p>
+      </motion.div>
+
+      {/* Category */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.6 }}
+        className="text-center"
+      >
+        <span className="text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-primary/10 text-primary">
+          {word.type}
+        </span>
       </motion.div>
     </motion.div>
   );
