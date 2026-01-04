@@ -41,11 +41,11 @@ const About = () => {
           .from("profiles")
           .select("*", { count: "exact", head: true });
 
-        // Get unique visitors (unique session_ids)
+        // Get unique visitors (unique visitor_ids from localStorage-based tracking)
         const { data: visitorData } = await supabase
           .from("user_actions")
-          .select("session_id");
-        const uniqueVisitors = new Set(visitorData?.map((v) => v.session_id)).size;
+          .select("visitor_id");
+        const uniqueVisitors = new Set(visitorData?.filter((v) => v.visitor_id).map((v) => v.visitor_id)).size;
 
         // Get page views (page_visit actions)
         const { count: pageViewCount } = await supabase

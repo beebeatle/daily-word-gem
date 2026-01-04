@@ -59,6 +59,7 @@ export type Database = {
           user_agent: string | null
           user_email: string | null
           user_id: string | null
+          visitor_id: string | null
         }
         Insert: {
           action_type: string
@@ -77,6 +78,7 @@ export type Database = {
           user_agent?: string | null
           user_email?: string | null
           user_id?: string | null
+          visitor_id?: string | null
         }
         Update: {
           action_type?: string
@@ -95,6 +97,7 @@ export type Database = {
           user_agent?: string | null
           user_email?: string | null
           user_id?: string | null
+          visitor_id?: string | null
         }
         Relationships: []
       }
