@@ -51,9 +51,12 @@ const WordCard = ({ word }: WordCardProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-4"
+          className="mt-4 flex items-center justify-center gap-3"
         >
           <span className="part-of-speech">{word.partOfSpeech}</span>
+          <span className="text-xs font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-primary/10 text-primary">
+            {word.type}
+          </span>
         </motion.div>
       </div>
 
