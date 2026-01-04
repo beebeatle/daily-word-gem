@@ -26,6 +26,7 @@ import {
 interface UserAction {
   id: string;
   user_id: string | null;
+  user_email: string | null;
   session_id: string;
   action_type: string;
   page_path: string | null;
@@ -40,10 +41,6 @@ interface UserAction {
   created_at: string;
 }
 
-interface UserEmail {
-  id: string;
-  email: string;
-}
 
 const ActivityLog = () => {
   const { user, loading: authLoading } = useAuth();
@@ -51,7 +48,6 @@ const ActivityLog = () => {
   const { role } = useUserRole();
   const navigate = useNavigate();
   const [actions, setActions] = useState<UserAction[]>([]);
-  const [userEmails, setUserEmails] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
 
@@ -88,21 +84,6 @@ const ActivityLog = () => {
         }
 
         setActions(data || []);
-
-        // Fetch user emails for logged-in users
-        const userIds = [...new Set((data || []).map(a => a.user_id).filter(Boolean))] as string[];
-        if (userIds.length > 0) {
-          const { data: profiles } = await supabase
-            .from('profiles')
-            .select('user_id, display_name')
-            .in('user_id', userIds);
-
-          const emailMap: Record<string, string> = {};
-          profiles?.forEach(p => {
-            emailMap[p.user_id] = p.display_name || 'User';
-          });
-          setUserEmails(emailMap);
-        }
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -201,10 +182,8 @@ const ActivityLog = () => {
                       {formatDate(action.created_at)}
                     </TableCell>
                     <TableCell>
-                      {action.user_id ? (
-                        <span className="text-sm">
-                          {userEmails[action.user_id] || action.user_id.slice(0, 8)}
-                        </span>
+                      {action.user_email ? (
+                        <span className="text-sm">{action.user_email}</span>
                       ) : (
                         <Badge variant="outline" className="text-xs">Anonymous</Badge>
                       )}

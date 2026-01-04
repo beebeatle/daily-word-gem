@@ -54,6 +54,7 @@ export type Database = {
           screen_resolution: string | null
           session_id: string
           user_agent: string | null
+          user_email: string | null
           user_id: string | null
         }
         Insert: {
@@ -71,6 +72,7 @@ export type Database = {
           screen_resolution?: string | null
           session_id: string
           user_agent?: string | null
+          user_email?: string | null
           user_id?: string | null
         }
         Update: {
@@ -88,6 +90,7 @@ export type Database = {
           screen_resolution?: string | null
           session_id?: string
           user_agent?: string | null
+          user_email?: string | null
           user_id?: string | null
         }
         Relationships: []
