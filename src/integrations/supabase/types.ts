@@ -38,6 +38,60 @@ export type Database = {
         }
         Relationships: []
       }
+      user_actions: {
+        Row: {
+          action_type: string
+          browser: string | null
+          created_at: string
+          device: string | null
+          element_info: string | null
+          id: string
+          ip_address: string | null
+          language: string | null
+          os: string | null
+          page_path: string | null
+          referrer: string | null
+          screen_resolution: string | null
+          session_id: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action_type: string
+          browser?: string | null
+          created_at?: string
+          device?: string | null
+          element_info?: string | null
+          id?: string
+          ip_address?: string | null
+          language?: string | null
+          os?: string | null
+          page_path?: string | null
+          referrer?: string | null
+          screen_resolution?: string | null
+          session_id: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          browser?: string | null
+          created_at?: string
+          device?: string | null
+          element_info?: string | null
+          id?: string
+          ip_address?: string | null
+          language?: string | null
+          os?: string | null
+          page_path?: string | null
+          referrer?: string | null
+          screen_resolution?: string | null
+          session_id?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_preferences: {
         Row: {
           created_at: string
