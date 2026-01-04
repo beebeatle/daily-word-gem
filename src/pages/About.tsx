@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { BookOpen, Users, Eye, MousePointer, BookText, FolderOpen, ArrowLeft, Quote } from "lucide-react";
+import { BookOpen, Users, Eye, MousePointer, BookText, FolderOpen, ArrowLeft, Quote, Target, BarChart3, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { words } from "@/data/words";
 
@@ -99,6 +99,18 @@ const About = () => {
     },
   ];
 
+  const tableOfContents = [
+    { id: "mission", label: "Our Mission", icon: Target },
+    { id: "statistics", label: "Usage Statistics", icon: BarChart3 },
+    { id: "testimonials", label: "Testimonials", icon: MessageSquare },
+  ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -142,12 +154,37 @@ const About = () => {
             </h1>
           </motion.header>
 
+          {/* Table of Contents */}
+          <motion.nav
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.5 }}
+            className="mb-12 md:mb-16"
+          >
+            <div className="flex flex-wrap justify-center gap-3">
+              {tableOfContents.map((item, index) => (
+                <motion.button
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
+                  onClick={() => scrollToSection(item.id)}
+                  className="group flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 font-sans text-sm text-muted-foreground hover:text-foreground"
+                >
+                  <item.icon className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors" />
+                  {item.label}
+                </motion.button>
+              ))}
+            </div>
+          </motion.nav>
+
           {/* Mission Section */}
           <motion.section
+            id="mission"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="mb-16"
+            className="mb-16 scroll-mt-24"
           >
             <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
               Our Mission
@@ -176,9 +213,11 @@ const About = () => {
 
           {/* Statistics Section */}
           <motion.section
+            id="statistics"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
+            className="scroll-mt-24"
           >
             <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8 text-center">
               Usage Statistics
@@ -219,9 +258,11 @@ const About = () => {
 
           {/* Testimonials Section */}
           <motion.section
+            id="testimonials"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
+            className="scroll-mt-24"
           >
             <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-8 text-center">
               What Our Users Say
