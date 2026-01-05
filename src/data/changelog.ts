@@ -6,6 +6,13 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-05.1000",
+    date: "January 5, 2026",
+    changes: [
+      "Added localStorage persistence for word category filter for guest users",
+    ],
+  },
+  {
     version: "2026-01-04.1730",
     date: "January 4, 2026",
     changes: [
