@@ -11,12 +11,18 @@ import { useActivityLog } from "@/hooks/useActivityLogger";
 
 const NOLT_URL = "https://worddelight.nolt.io";
 
+const CATEGORY_STORAGE_KEY = 'worddelight_active_category';
+
 const Index = () => {
   const { preferredWordTypes, loading } = useUserPreferences();
   const { logButtonClick, logWordDisplay } = useActivityLog();
   const [currentWord, setCurrentWord] = useState<Word | null>(null);
   const [wordKey, setWordKey] = useState(0);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(() => {
+    // Initialize from localStorage for guest persistence
+    const saved = localStorage.getItem(CATEGORY_STORAGE_KEY);
+    return saved || null;
+  });
   const currentDate = formatDate();
 
   // Set initial word based on preferences and log it
@@ -43,6 +49,8 @@ const Index = () => {
 
   const handleCategoryChange = useCallback((category: string) => {
     setActiveCategory(category);
+    // Persist category to localStorage for guest users
+    localStorage.setItem(CATEGORY_STORAGE_KEY, category);
     const filteredWords = getWordsByType([category]);
     if (filteredWords.length > 0) {
       const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
