@@ -139,12 +139,24 @@ const Index = () => {
             <p className="font-sans text-xs text-muted-foreground/60 tracking-wide">
               Expand your vocabulary, one word at a time
             </p>
-            <Link 
-              to="/changelog" 
-              className="font-sans text-[10px] text-muted-foreground/40 hover:text-primary transition-colors"
-            >
-              v{__APP_VERSION__}
-            </Link>
+            <p className="font-sans text-[10px] text-muted-foreground/40">
+              <Link 
+                to="/changelog" 
+                className="hover:text-primary transition-colors"
+              >
+                v{__APP_VERSION__}
+              </Link>
+              <span className="mx-1.5">·</span>
+              <span>Contribute to source code of </span>
+              <a 
+                href="https://github.com/beebeatle/daily-word-gem" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                this app on GitHub
+              </a>
+            </p>
           </motion.footer>
         </div>
       </main>
