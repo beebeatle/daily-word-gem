@@ -5,7 +5,7 @@ export interface Word {
   definition: string;
   example: string;
   etymology: string;
-  type: 'general' | 'academic' | 'creative' | 'business';
+  type: 'general' | 'academic' | 'creative' | 'business' | 'mindfulness';
 }
 
 export const words: Word[] = [
@@ -241,6 +241,72 @@ export const words: Word[] = [
     etymology: "Originally a surveyor's mark cut in rock, extended to business meaning in the 1970s.",
     type: "business"
   },
+
+  // === MOODS & MINDFULNESS ===
+  {
+    word: "Equanimity",
+    pronunciation: "/ˌiːkwəˈnɪmɪti/",
+    partOfSpeech: "noun",
+    definition: "Mental calmness and composure, especially in difficult situations; evenness of temper.",
+    example: "She faced the crisis with remarkable equanimity, never losing her composure.",
+    etymology: "From Latin aequanimitas, from aequus (even) + animus (mind, spirit).",
+    type: "mindfulness"
+  },
+  {
+    word: "Tranquil",
+    pronunciation: "/ˈtræŋkwɪl/",
+    partOfSpeech: "adjective",
+    definition: "Free from disturbance; calm, serene, and peaceful in quality or state.",
+    example: "The tranquil lake reflected the mountains like a perfect mirror at dawn.",
+    etymology: "From Latin tranquillus (calm, still), possibly related to trans- (across) + quies (rest).",
+    type: "mindfulness"
+  },
+  {
+    word: "Satori",
+    pronunciation: "/səˈtɔːri/",
+    partOfSpeech: "noun",
+    definition: "A sudden moment of awakening or enlightenment in Zen Buddhism; profound insight.",
+    example: "During meditation, she experienced a satori that transformed her understanding of self.",
+    etymology: "From Japanese 悟り (satori), meaning 'understanding' or 'awakening,' from satoru (to know).",
+    type: "mindfulness"
+  },
+  {
+    word: "Halcyon",
+    pronunciation: "/ˈhælsiən/",
+    partOfSpeech: "adjective",
+    definition: "Denoting a period of time in the past that was idyllically happy and peaceful.",
+    example: "She often reminisced about the halcyon days of her childhood summers by the sea.",
+    etymology: "From Greek halkyon (kingfisher), associated with calm seas during the bird's breeding season.",
+    type: "mindfulness"
+  },
+  {
+    word: "Solace",
+    pronunciation: "/ˈsɒləs/",
+    partOfSpeech: "noun",
+    definition: "Comfort or consolation in a time of distress or sadness; a source of relief.",
+    example: "She found solace in the garden, where the rhythm of nature soothed her troubled mind.",
+    etymology: "From Latin solacium (comfort, consolation), from solari (to console).",
+    type: "mindfulness"
+  },
+  {
+    word: "Serenity",
+    pronunciation: "/səˈrenɪti/",
+    partOfSpeech: "noun",
+    definition: "The state of being calm, peaceful, and untroubled; a disposition free from stress.",
+    example: "The monastery radiated a serenity that immediately calmed every visitor who entered.",
+    etymology: "From Latin serenitas (clearness, calmness), from serenus (clear, bright, serene).",
+    type: "mindfulness"
+  },
+  {
+    word: "Contemplative",
+    pronunciation: "/kənˈtemplətɪv/",
+    partOfSpeech: "adjective",
+    definition: "Expressing or involving prolonged thought; given to deep reflection and meditation.",
+    example: "His contemplative nature led him to spend hours in quiet introspection.",
+    etymology: "From Latin contemplativus, from contemplari (to gaze attentively, observe).",
+    type: "mindfulness"
+  },
+
   {
     word: "Quintessential",
     pronunciation: "/ˌkwɪntɪˈsenʃəl/",

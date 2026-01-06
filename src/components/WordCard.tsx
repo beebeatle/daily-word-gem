@@ -14,6 +14,7 @@ const WORD_TYPES = [
   { value: "academic", label: "Academic" },
   { value: "creative", label: "Creative" },
   { value: "business", label: "Business" },
+  { value: "mindfulness", label: "Mindfulness" },
 ];
 
 interface WordCardProps {
