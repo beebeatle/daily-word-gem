@@ -306,6 +306,105 @@ export const words: Word[] = [
     etymology: "From Latin contemplativus, from contemplari (to gaze attentively, observe).",
     type: "mindfulness"
   },
+  {
+    word: "Melancholy",
+    pronunciation: "/ˈmelənkɒli/",
+    partOfSpeech: "noun",
+    definition: "A deep, pensive sadness; a thoughtful or gentle sorrow that can feel almost beautiful.",
+    example: "There was a sweet melancholy in the autumn air as leaves drifted to the ground.",
+    etymology: "From Greek melankholia (sadness), from melas (black) + kholē (bile), referring to ancient humoral theory.",
+    type: "mindfulness"
+  },
+  {
+    word: "Euphoria",
+    pronunciation: "/juːˈfɔːriə/",
+    partOfSpeech: "noun",
+    definition: "An intense feeling of well-being, elation, and happiness; a state of overwhelming joy.",
+    example: "Crossing the finish line filled her with euphoria she had never experienced before.",
+    etymology: "From Greek euphoria (power of enduring easily), from eu- (well) + pherein (to bear).",
+    type: "mindfulness"
+  },
+  {
+    word: "Wistful",
+    pronunciation: "/ˈwɪstfʊl/",
+    partOfSpeech: "adjective",
+    definition: "Having or showing a feeling of vague or regretful longing; pensively sad.",
+    example: "He gave a wistful smile as he looked at the old photographs from his university days.",
+    etymology: "Perhaps from obsolete wistly (intently), influenced by wishful; first recorded in the early 17th century.",
+    type: "mindfulness"
+  },
+  {
+    word: "Elation",
+    pronunciation: "/ɪˈleɪʃən/",
+    partOfSpeech: "noun",
+    definition: "Great happiness and exhilaration; a feeling of pride and joy at an achievement.",
+    example: "The team's elation was palpable as they celebrated their championship victory.",
+    etymology: "From Latin elatio (a lifting up), from efferre (to carry out, raise up).",
+    type: "mindfulness"
+  },
+  {
+    word: "Ennui",
+    pronunciation: "/ɒnˈwiː/",
+    partOfSpeech: "noun",
+    definition: "A feeling of listlessness and dissatisfaction arising from a lack of excitement or purpose.",
+    example: "The endless gray winter days filled him with a deep sense of ennui.",
+    etymology: "From French ennui (boredom), from Old French enui (annoyance), from enuier (to annoy).",
+    type: "mindfulness"
+  },
+  {
+    word: "Catharsis",
+    pronunciation: "/kəˈθɑːsɪs/",
+    partOfSpeech: "noun",
+    definition: "The process of releasing strong emotions through art or expression; emotional purification.",
+    example: "Writing in her journal provided a catharsis that helped her process the difficult year.",
+    etymology: "From Greek katharsis (purification, cleansing), from kathairein (to purify).",
+    type: "mindfulness"
+  },
+  {
+    word: "Placid",
+    pronunciation: "/ˈplæsɪd/",
+    partOfSpeech: "adjective",
+    definition: "Not easily upset or excited; calm and peaceful with little movement or activity.",
+    example: "The placid waters of the lake perfectly mirrored the surrounding mountains.",
+    etymology: "From Latin placidus (gentle, quiet), from placere (to please).",
+    type: "mindfulness"
+  },
+  {
+    word: "Ebullient",
+    pronunciation: "/ɪˈbʌliənt/",
+    partOfSpeech: "adjective",
+    definition: "Overflowing with enthusiasm, excitement, or cheerfulness; exuberantly lively.",
+    example: "Her ebullient personality made every gathering feel like a celebration.",
+    etymology: "From Latin ebullire (to bubble up), from e- (out) + bullire (to boil).",
+    type: "mindfulness"
+  },
+  {
+    word: "Pensive",
+    pronunciation: "/ˈpensɪv/",
+    partOfSpeech: "adjective",
+    definition: "Engaged in deep or serious thought, often with a tinge of sadness or dreaminess.",
+    example: "She sat by the window in a pensive mood, watching the rain fall.",
+    etymology: "From Old French pensif, from penser (to think), from Latin pensare (to weigh, consider).",
+    type: "mindfulness"
+  },
+  {
+    word: "Rapture",
+    pronunciation: "/ˈræptʃər/",
+    partOfSpeech: "noun",
+    definition: "A feeling of intense pleasure or joy; ecstatic delight that transports one beyond ordinary experience.",
+    example: "The audience listened in rapture as the orchestra performed the symphony's finale.",
+    etymology: "From Latin raptura (seizure), from rapere (to seize), suggesting being 'seized' by emotion.",
+    type: "mindfulness"
+  },
+  {
+    word: "Languor",
+    pronunciation: "/ˈlæŋɡər/",
+    partOfSpeech: "noun",
+    definition: "A state of pleasant tiredness or dreamy inactivity; a relaxed, unhurried quality.",
+    example: "The summer heat induced a languor that made even simple tasks feel luxuriously slow.",
+    etymology: "From Latin languor (faintness, weariness), from languere (to be faint or weak).",
+    type: "mindfulness"
+  },
 
   {
     word: "Quintessential",

@@ -9,7 +9,7 @@ export const changelog: ChangelogEntry[] = [
     version: "2026-01-06.1100",
     date: "January 6, 2026",
     changes: [
-      "Added new 'Moods & Mindfulness' word category with 7 curated words",
+      "Expanded 'Moods & Mindfulness' category with 12 additional mood words",
     ],
   },
   {
