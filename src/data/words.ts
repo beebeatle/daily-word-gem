@@ -405,6 +405,15 @@ export const words: Word[] = [
     etymology: "From Latin languor (faintness, weariness), from languere (to be faint or weak).",
     type: "mindfulness"
   },
+  {
+  word: "Center",
+  pronunciation: "/ˈsɛntər/",
+  partOfSpeech: "verb",
+  definition: "To bring attention back to the present moment and restore emotional or mental balance.",
+  example: "She paused to center herself before responding to the difficult conversation.",
+  etymology: "From Latin 'centrum', meaning the middle point; adopted in mindfulness to describe returning to inner balance.",
+  type: "mindfulness"
+  },
 
   {
     word: "Quintessential",
