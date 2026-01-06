@@ -6,6 +6,13 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-06.1200",
+    date: "January 6, 2026",
+    changes: [
+      "Added 'All' option to category dropdown to show words from any category",
+    ],
+  },
+  {
     version: "2026-01-06.1100",
     date: "January 6, 2026",
     changes: [
