@@ -16,7 +16,7 @@ const Header = ({ date }: HeaderProps) => {
       <div className="flex items-center justify-center gap-2 mb-4">
         <BookOpen className="w-5 h-5 text-primary" />
         <span className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-          Word of the Day
+         Your Word of the Day
         </span>
       </div>
       <p className="font-sans text-sm text-muted-foreground tracking-wide">
