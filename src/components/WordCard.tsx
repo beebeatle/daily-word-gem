@@ -136,25 +136,32 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
         transition={{ delay: 1, duration: 0.6 }}
         className="text-center"
       >
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className={`inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer ${isFilterActive ? 'ring-2 ring-foreground' : ''}`}>
-              {word.type}
-              <ChevronDown className="w-3 h-3" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
-            {WORD_TYPES.map((type) => (
-              <DropdownMenuItem
-                key={type.value}
-                onClick={() => handleCategorySelect(type.value)}
-                className="cursor-pointer"
-              >
-                {type.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="inline-flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className={`inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer ${isFilterActive ? 'ring-2 ring-foreground' : ''}`}>
+                {isFilterActive ? word.type : 'All'}
+                <ChevronDown className="w-3 h-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              {WORD_TYPES.map((type) => (
+                <DropdownMenuItem
+                  key={type.value}
+                  onClick={() => handleCategorySelect(type.value)}
+                  className="cursor-pointer"
+                >
+                  {type.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {!isFilterActive && (
+            <span className="text-xs text-muted-foreground capitalize">
+              ({word.type})
+            </span>
+          )}
+        </div>
       </motion.div>
     </motion.div>
   );
