@@ -10,6 +10,7 @@ import {
 import { useActivityLog } from "@/hooks/useActivityLogger";
 
 const WORD_TYPES = [
+  { value: "all", label: "All" },
   { value: "general", label: "General" },
   { value: "academic", label: "Academic" },
   { value: "creative", label: "Creative" },
