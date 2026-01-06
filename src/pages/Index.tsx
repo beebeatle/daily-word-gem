@@ -147,14 +147,13 @@ const Index = () => {
                 v{__APP_VERSION__}
               </Link>
               <span className="mx-1.5">·</span>
-              <span>Contribute to source code of </span>
               <a 
                 href="https://github.com/beebeatle/daily-word-gem" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
               >
-                this app on GitHub
+                Contribute to source code of this app on GitHub
               </a>
             </p>
           </motion.footer>
