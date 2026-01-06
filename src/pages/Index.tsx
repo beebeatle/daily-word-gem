@@ -25,14 +25,18 @@ const Index = () => {
   });
   const currentDate = formatDate();
 
-  // Set initial word based on preferences and log it
+  // Set initial word based on active category (from localStorage) or user preferences
   useEffect(() => {
     if (!loading) {
-      const word = getWordOfTheDay(preferredWordTypes);
-      setCurrentWord(word);
-      logWordDisplay(word.word);
+      // Use active category if set, otherwise fall back to user preferences
+      const typesToUse = activeCategory ? [activeCategory] : preferredWordTypes;
+      const filteredWords = getWordsByType(typesToUse);
+      const wordPool = filteredWords.length > 0 ? filteredWords : words;
+      const randomWord = wordPool[Math.floor(Math.random() * wordPool.length)];
+      setCurrentWord(randomWord);
+      logWordDisplay(randomWord.word);
     }
-  }, [loading, preferredWordTypes, logWordDisplay]);
+  }, [loading, preferredWordTypes, activeCategory, logWordDisplay]);
 
   const shuffleWord = useCallback(() => {
     logButtonClick('Try another word');
