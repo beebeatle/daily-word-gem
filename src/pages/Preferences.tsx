@@ -13,6 +13,7 @@ const WORD_TYPES = [
   { id: 'academic', label: 'Academic', description: 'Words for scholarly writing' },
   { id: 'creative', label: 'Creative writing', description: 'Expressive and poetic words' },
   { id: 'business', label: 'Business', description: 'Professional terminology' },
+  { id: 'mindfulness', label: 'Moods & Mindfulness', description: 'Words for calm and introspection' },
 ];
 
 const Preferences = () => {
