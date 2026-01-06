@@ -52,10 +52,18 @@ const Index = () => {
   }, [currentWord?.word, preferredWordTypes, activeCategory, logButtonClick, logWordDisplay]);
 
   const handleCategoryChange = useCallback((category: string) => {
-    setActiveCategory(category);
+    // Treat "all" as clearing the filter
+    const newCategory = category === 'all' ? null : category;
+    setActiveCategory(newCategory);
     // Persist category to localStorage for guest users
-    localStorage.setItem(CATEGORY_STORAGE_KEY, category);
-    const filteredWords = getWordsByType([category]);
+    if (newCategory) {
+      localStorage.setItem(CATEGORY_STORAGE_KEY, newCategory);
+    } else {
+      localStorage.removeItem(CATEGORY_STORAGE_KEY);
+    }
+    
+    // Get words based on category (all words if null)
+    const filteredWords = newCategory ? getWordsByType([newCategory]) : words;
     if (filteredWords.length > 0) {
       const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
       setCurrentWord(randomWord);
