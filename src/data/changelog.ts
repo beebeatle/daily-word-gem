@@ -6,6 +6,13 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-06.1000",
+    date: "January 6, 2026",
+    changes: [
+      "Fixed bug: saved category filter now correctly applies on page load/refresh",
+    ],
+  },
+  {
     version: "2026-01-05.1000",
     date: "January 5, 2026",
     changes: [
