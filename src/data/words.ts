@@ -414,6 +414,15 @@ export const words: Word[] = [
   etymology: "From Latin 'centrum', meaning the middle point; adopted in mindfulness to describe returning to inner balance.",
   type: "mindfulness"
   },
+ {
+  word: "Panacea",
+  pronunciation: "/ˌpænəˈsiːə/",
+  partOfSpeech: "noun",
+  definition: "A solution or remedy for all difficulties or diseases.",
+  example: "Education is often seen as a panacea for social problems.",
+  etymology: "From Greek panakeia (universal remedy), from pan (all) + akos (cure).",
+  type: "mindfulness"
+ },
 
   {
     word: "Quintessential",
