@@ -29,43 +29,33 @@ const About = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Get total registered users from profiles
-        const { count: userCount } = await supabase
-          .from("profiles")
-          .select("*", { count: "exact", head: true });
+        // Use public stats function that returns aggregate data for all visitors
+        const { data, error } = await supabase.rpc("get_public_stats");
 
-        // Get unique visitors (unique visitor_ids from localStorage-based tracking)
-        const { data: visitorData } = await supabase
-          .from("user_actions")
-          .select("visitor_id");
-        const uniqueVisitors = new Set(visitorData?.filter((v) => v.visitor_id).map((v) => v.visitor_id)).size;
+        if (error) {
+          console.error("Error fetching public stats:", error);
+          setLoading(false);
+          return;
+        }
 
-        // Get page views (page_visit actions)
-        const { count: pageViewCount } = await supabase
-          .from("user_actions")
-          .select("*", { count: "exact", head: true })
-          .eq("action_type", "page_visit");
-
-        // Get words displayed count from word_displays table
-        const { count: wordDisplayCount } = await supabase
-          .from("word_displays")
-          .select("*", { count: "exact", head: true });
-
-        // Get unique words displayed
-        const { data: allWordDisplays } = await supabase
-          .from("word_displays")
-          .select("word");
-        const uniqueWordsDisplayed = new Set(allWordDisplays?.map((w) => w.word)).size;
-
-        // Get unique word categories from the words data
+        // Get unique word categories from the words data (client-side)
         const categories = new Set(words.map((w) => w.type));
 
+        // Type the response data
+        const statsData = data as {
+          total_users: number;
+          unique_visitors: number;
+          page_views: number;
+          words_displayed: number;
+          unique_words_displayed: number;
+        } | null;
+
         setStats({
-          totalUsers: userCount || 0,
-          uniqueVisitors,
-          pageViews: pageViewCount || 0,
-          wordsDisplayed: wordDisplayCount || 0,
-          uniqueWordsDisplayed,
+          totalUsers: statsData?.total_users || 0,
+          uniqueVisitors: statsData?.unique_visitors || 0,
+          pageViews: statsData?.page_views || 0,
+          wordsDisplayed: statsData?.words_displayed || 0,
+          uniqueWordsDisplayed: statsData?.unique_words_displayed || 0,
           wordCategories: categories.size,
         });
       } catch (error) {
