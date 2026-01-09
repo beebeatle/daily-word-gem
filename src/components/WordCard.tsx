@@ -1,6 +1,6 @@
 import { Word } from "@/data/words";
 import { motion } from "framer-motion";
-import { Volume2, ChevronDown } from "lucide-react";
+import { Volume2, ChevronDown, ThumbsUp, ThumbsDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useActivityLog } from "@/hooks/useActivityLogger";
-
+import { useWordReactions } from "@/hooks/useWordReactions";
 const WORD_TYPES = [
   { value: "all", label: "All" },
   { value: "general", label: "General" },
@@ -26,6 +26,7 @@ interface WordCardProps {
 
 const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => {
   const { logAction } = useActivityLog();
+  const { counts, userReaction, handleReaction, loading } = useWordReactions(word.word);
 
   const speakWord = () => {
     logAction('button_click', 'Pronunciation');
@@ -37,6 +38,16 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
   const handleCategorySelect = (category: string) => {
     logAction('dropdown_select', `Category: ${category}`);
     onCategoryChange?.(category);
+  };
+
+  const onLike = () => {
+    logAction('button_click', `Like: ${word.word}`);
+    handleReaction('like');
+  };
+
+  const onDislike = () => {
+    logAction('button_click', `Dislike: ${word.word}`);
+    handleReaction('dislike');
   };
   return (
     <motion.div
@@ -129,11 +140,46 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
         <p className="etymology-text">{word.etymology}</p>
       </motion.div>
 
+      {/* Reactions */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.6 }}
+        className="flex items-center justify-center gap-6 mb-8"
+      >
+        <button
+          onClick={onLike}
+          disabled={loading}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+            userReaction === 'like'
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-muted text-muted-foreground hover:bg-muted/80'
+          } ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+          aria-label="Like this word"
+        >
+          <ThumbsUp className="w-4 h-4" />
+          <span className="text-sm font-medium">{counts.likes}</span>
+        </button>
+        <button
+          onClick={onDislike}
+          disabled={loading}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+            userReaction === 'dislike'
+              ? 'bg-destructive text-destructive-foreground'
+              : 'bg-muted text-muted-foreground hover:bg-muted/80'
+          } ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+          aria-label="Dislike this word"
+        >
+          <ThumbsDown className="w-4 h-4" />
+          <span className="text-sm font-medium">{counts.dislikes}</span>
+        </button>
+      </motion.div>
+
       {/* Category */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.6 }}
+        transition={{ delay: 1.1, duration: 0.6 }}
         className="text-center"
       >
         <div className="inline-flex items-center gap-2">
