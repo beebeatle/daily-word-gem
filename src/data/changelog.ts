@@ -6,6 +6,15 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-09.1200",
+    date: "January 9, 2026",
+    changes: [
+      "Added like/dislike feature for words",
+      "Users can react once per word (like or dislike)",
+      "Like and dislike counts displayed on word cards",
+    ],
+  },
+  {
     version: "2026-01-06.1200",
     date: "January 6, 2026",
     changes: [

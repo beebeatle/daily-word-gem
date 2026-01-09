@@ -173,6 +173,33 @@ export type Database = {
         }
         Relationships: []
       }
+      word_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          reaction: Database["public"]["Enums"]["reaction_type"]
+          updated_at: string
+          user_id: string
+          word: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reaction: Database["public"]["Enums"]["reaction_type"]
+          updated_at?: string
+          user_id: string
+          word: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reaction?: Database["public"]["Enums"]["reaction_type"]
+          updated_at?: string
+          user_id?: string
+          word?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -189,6 +216,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      reaction_type: "like" | "dislike"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -317,6 +345,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      reaction_type: ["like", "dislike"],
     },
   },
 } as const
