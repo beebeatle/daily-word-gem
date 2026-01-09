@@ -179,7 +179,8 @@ export type Database = {
           id: string
           reaction: Database["public"]["Enums"]["reaction_type"]
           updated_at: string
-          user_id: string
+          user_id: string | null
+          visitor_id: string | null
           word: string
         }
         Insert: {
@@ -187,7 +188,8 @@ export type Database = {
           id?: string
           reaction: Database["public"]["Enums"]["reaction_type"]
           updated_at?: string
-          user_id: string
+          user_id?: string | null
+          visitor_id?: string | null
           word: string
         }
         Update: {
@@ -195,7 +197,8 @@ export type Database = {
           id?: string
           reaction?: Database["public"]["Enums"]["reaction_type"]
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
+          visitor_id?: string | null
           word?: string
         }
         Relationships: []

@@ -10,17 +10,28 @@ interface ReactionCounts {
   dislikes: number;
 }
 
+const getVisitorId = (): string => {
+  let visitorId = localStorage.getItem('visitor_id');
+  if (!visitorId) {
+    visitorId = crypto.randomUUID();
+    localStorage.setItem('visitor_id', visitorId);
+  }
+  return visitorId;
+};
+
 export const useWordReactions = (word: string) => {
   const { user } = useAuth();
   const [counts, setCounts] = useState<ReactionCounts>({ likes: 0, dislikes: 0 });
   const [userReaction, setUserReaction] = useState<ReactionType | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const visitorId = getVisitorId();
+
   const fetchReactions = useCallback(async () => {
     // Fetch counts for this word
     const { data: reactions, error } = await supabase
       .from('word_reactions')
-      .select('reaction, user_id')
+      .select('reaction, user_id, visitor_id')
       .eq('word', word);
 
     if (error) {
@@ -32,37 +43,40 @@ export const useWordReactions = (word: string) => {
     const dislikes = reactions?.filter(r => r.reaction === 'dislike').length || 0;
     setCounts({ likes, dislikes });
 
-    // Check if current user has reacted
+    // Check if current user/visitor has reacted
+    let userReactionData;
     if (user) {
-      const userReactionData = reactions?.find(r => r.user_id === user.id);
-      setUserReaction(userReactionData?.reaction as ReactionType || null);
+      userReactionData = reactions?.find(r => r.user_id === user.id);
     } else {
-      setUserReaction(null);
+      userReactionData = reactions?.find(r => r.visitor_id === visitorId);
     }
-  }, [word, user]);
+    setUserReaction(userReactionData?.reaction as ReactionType || null);
+  }, [word, user, visitorId]);
 
   useEffect(() => {
     fetchReactions();
   }, [fetchReactions]);
 
   const handleReaction = async (reaction: ReactionType) => {
-    if (!user) {
-      toast.error('Please sign in to react to words');
-      return;
-    }
-
     setLoading(true);
 
     try {
       if (userReaction === reaction) {
         // Remove reaction if clicking the same one
-        const { error } = await supabase
+        let query = supabase
           .from('word_reactions')
           .delete()
-          .eq('user_id', user.id)
           .eq('word', word);
 
+        if (user) {
+          query = query.eq('user_id', user.id);
+        } else {
+          query = query.eq('visitor_id', visitorId);
+        }
+
+        const { error } = await query;
         if (error) throw error;
+        
         setUserReaction(null);
         setCounts(prev => ({
           ...prev,
@@ -70,12 +84,18 @@ export const useWordReactions = (word: string) => {
         }));
       } else if (userReaction) {
         // Update existing reaction
-        const { error } = await supabase
+        let query = supabase
           .from('word_reactions')
           .update({ reaction, updated_at: new Date().toISOString() })
-          .eq('user_id', user.id)
           .eq('word', word);
 
+        if (user) {
+          query = query.eq('user_id', user.id);
+        } else {
+          query = query.eq('visitor_id', visitorId);
+        }
+
+        const { error } = await query;
         if (error) throw error;
         
         const oldReaction = userReaction;
@@ -86,9 +106,13 @@ export const useWordReactions = (word: string) => {
         }));
       } else {
         // Insert new reaction
+        const insertData = user 
+          ? { user_id: user.id, word, reaction }
+          : { visitor_id: visitorId, word, reaction };
+
         const { error } = await supabase
           .from('word_reactions')
-          .insert({ user_id: user.id, word, reaction });
+          .insert(insertData);
 
         if (error) throw error;
         setUserReaction(reaction);
