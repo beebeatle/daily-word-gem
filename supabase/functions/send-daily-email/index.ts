@@ -584,20 +584,42 @@ serve(async (req) => {
     const results = [];
     const errors = [];
 
+    const emailSubject = `📚 Word of the Day: ${wordOfTheDay.word}`;
+    
     for (const user of usersWithEmails) {
       try {
         const emailResponse = await resend.emails.send({
           from: "Word Delight <onboarding@resend.dev>",
           to: [user.email!],
-          subject: `📚 Word of the Day: ${wordOfTheDay.word}`,
+          subject: emailSubject,
           html: emailHtml,
         });
         results.push({ email: user.email, success: true, id: emailResponse.data?.id });
         console.log(`Email sent to ${user.email}:`, emailResponse);
+        
+        // Log successful email to database
+        await supabase.from('emails_sent').insert({
+          recipient_email: user.email,
+          recipient_user_id: user.user_id,
+          subject: emailSubject,
+          email_type: 'daily_word',
+          status: 'sent',
+          resend_id: emailResponse.data?.id || null,
+        });
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : "Unknown error";
         errors.push({ email: user.email, error: errorMessage });
         console.error(`Failed to send email to ${user.email}:`, error);
+        
+        // Log failed email to database
+        await supabase.from('emails_sent').insert({
+          recipient_email: user.email!,
+          recipient_user_id: user.user_id,
+          subject: emailSubject,
+          email_type: 'daily_word',
+          status: 'failed',
+          error_message: errorMessage,
+        });
       }
     }
 

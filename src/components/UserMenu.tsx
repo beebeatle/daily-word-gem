@@ -2,7 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAdmin } from '@/hooks/useAdmin';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useNavigate } from 'react-router-dom';
-import { User, LogOut, Settings, Shield, Activity, Users, BookOpen } from 'lucide-react';
+import { User, LogOut, Settings, Shield, Activity, Users, BookOpen, Mail } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,6 +74,10 @@ const UserMenu = () => {
             <DropdownMenuItem onClick={() => navigate('/word-displays')} className="cursor-pointer">
               <BookOpen className="w-4 h-4 mr-2" />
               Word Displays
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/emails-sent')} className="cursor-pointer">
+              <Mail className="w-4 h-4 mr-2" />
+              Emails Sent
             </DropdownMenuItem>
           </>
         )}
