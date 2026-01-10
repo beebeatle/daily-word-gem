@@ -106,6 +106,7 @@ export type Database = {
           created_at: string
           id: string
           preferred_word_types: string[] | null
+          send_daily_email: boolean
           updated_at: string
           user_id: string
         }
@@ -113,6 +114,7 @@ export type Database = {
           created_at?: string
           id?: string
           preferred_word_types?: string[] | null
+          send_daily_email?: boolean
           updated_at?: string
           user_id: string
         }
@@ -120,6 +122,7 @@ export type Database = {
           created_at?: string
           id?: string
           preferred_word_types?: string[] | null
+          send_daily_email?: boolean
           updated_at?: string
           user_id?: string
         }
