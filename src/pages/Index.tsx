@@ -148,7 +148,7 @@ const Index = () => {
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-colors"
               >
-                Contribute to source code of this app on GitHub
+                Contribute to this app's source code on GitHub
               </a>
             </p>
           </motion.footer>
