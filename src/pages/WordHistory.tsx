@@ -3,7 +3,14 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Calendar, History } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { words } from "@/data/words";
+import { words, Word } from "@/data/words";
+import WordCard from "@/components/WordCard";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { format } from "date-fns";
 
 interface WordOfTheDay {
@@ -17,6 +24,8 @@ interface WordOfTheDay {
 const WordHistory = () => {
   const [history, setHistory] = useState<WordOfTheDay[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedWord, setSelectedWord] = useState<Word | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -44,8 +53,16 @@ const WordHistory = () => {
     fetchHistory();
   }, []);
 
-  const getWordDetails = (wordText: string) => {
+  const getWordDetails = (wordText: string): Word | undefined => {
     return words.find((w) => w.word === wordText);
+  };
+
+  const handleWordClick = (wordText: string) => {
+    const wordDetails = getWordDetails(wordText);
+    if (wordDetails) {
+      setSelectedWord(wordDetails);
+      setSheetOpen(true);
+    }
   };
 
   const getCategoryLabel = (type: string) => {
@@ -137,7 +154,8 @@ const WordHistory = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
-                      className="bg-card border border-border rounded-xl p-6"
+                      className="bg-card border border-border rounded-xl p-6 cursor-pointer hover:border-primary/50 hover:shadow-md transition-all duration-200"
+                      onClick={() => handleWordClick(item.word)}
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
@@ -189,6 +207,18 @@ const WordHistory = () => {
           </motion.footer>
         </div>
       </main>
+
+      {/* Word Detail Sheet */}
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
+          <SheetHeader className="sr-only">
+            <SheetTitle>{selectedWord?.word}</SheetTitle>
+          </SheetHeader>
+          <div className="pt-6 pb-12">
+            {selectedWord && <WordCard word={selectedWord} />}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
