@@ -6,6 +6,14 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-10.1900",
+    date: "January 10, 2026",
+    changes: [
+      "Added daily email service for subscribed users",
+      "Emails include word of the day with full definition, example, and etymology",
+    ],
+  },
+  {
     version: "2026-01-10.1800",
     date: "January 10, 2026",
     changes: [
