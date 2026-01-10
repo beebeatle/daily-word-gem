@@ -1,1 +1,4 @@
 project_id = "vxyevnwvbcjnjmlwxalg"
+
+[functions.pick-word-of-the-day]
+verify_jwt = false

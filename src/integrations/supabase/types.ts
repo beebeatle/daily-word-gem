@@ -176,6 +176,30 @@ export type Database = {
         }
         Relationships: []
       }
+      word_of_the_day: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          word: string
+          word_type: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          word: string
+          word_type: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          word?: string
+          word_type?: string
+        }
+        Relationships: []
+      }
       word_reactions: {
         Row: {
           created_at: string
