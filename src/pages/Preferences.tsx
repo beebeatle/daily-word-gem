@@ -4,8 +4,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Loader2, Check } from 'lucide-react';
+import { ArrowLeft, Loader2, Check, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 
 const WORD_TYPES = [
@@ -20,6 +21,7 @@ const Preferences = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [selectedTypes, setSelectedTypes] = useState<string[]>(['general']);
+  const [sendDailyEmail, setSendDailyEmail] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -35,12 +37,15 @@ const Preferences = () => {
       
       const { data, error } = await supabase
         .from('user_preferences')
-        .select('preferred_word_types')
+        .select('preferred_word_types, send_daily_email')
         .eq('user_id', user.id)
         .maybeSingle();
 
-      if (!error && data?.preferred_word_types) {
-        setSelectedTypes(data.preferred_word_types);
+      if (!error && data) {
+        if (data.preferred_word_types) {
+          setSelectedTypes(data.preferred_word_types);
+        }
+        setSendDailyEmail(data.send_daily_email ?? false);
       }
       setLoading(false);
     };
@@ -67,7 +72,10 @@ const Preferences = () => {
     setSaving(true);
     const { error } = await supabase
       .from('user_preferences')
-      .update({ preferred_word_types: selectedTypes })
+      .update({ 
+        preferred_word_types: selectedTypes,
+        send_daily_email: sendDailyEmail
+      })
       .eq('user_id', user.id);
 
     if (error) {
@@ -145,6 +153,33 @@ const Preferences = () => {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Email Subscription Section */}
+        <div className="mb-8">
+          <h2 className="font-serif text-xl font-semibold text-foreground mb-4">
+            Email Notifications
+          </h2>
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            className="p-4 rounded-xl border border-border bg-card"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 text-muted-foreground mt-0.5" />
+                <div>
+                  <p className="font-sans font-medium text-foreground">Send my word of the day via email</p>
+                  <p className="font-sans text-sm text-muted-foreground">
+                    Receive your daily word in your inbox every morning
+                  </p>
+                </div>
+              </div>
+              <Switch
+                checked={sendDailyEmail}
+                onCheckedChange={setSendDailyEmail}
+              />
+            </div>
+          </motion.div>
         </div>
 
         <Button onClick={handleSave} disabled={saving} className="w-full">
