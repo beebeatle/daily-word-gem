@@ -6,6 +6,14 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-10.1800",
+    date: "January 10, 2026",
+    changes: [
+      "Added click-to-expand word details in Word History page",
+      "Words now open in a slide-up overlay showing full WordCard",
+    ],
+  },
+  {
     version: "2026-01-10.1700",
     date: "January 10, 2026",
     changes: [
