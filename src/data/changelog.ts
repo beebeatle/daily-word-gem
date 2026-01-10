@@ -6,6 +6,14 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-10.1700",
+    date: "January 10, 2026",
+    changes: [
+      "Restructured About into dropdown menu with three pages: Why, Usage Statistics, and Words of the Day history",
+      "Added Words of the Day history page showing past featured words",
+    ],
+  },
+  {
     version: "2026-01-09.1200",
     date: "January 9, 2026",
     changes: [
