@@ -11,7 +11,9 @@ import Preferences from "./pages/Preferences";
 import Admin from "./pages/Admin";
 import ActivityLog from "./pages/ActivityLog";
 import Users from "./pages/Users";
-import About from "./pages/About";
+import Why from "./pages/Why";
+import UsageStatistics from "./pages/UsageStatistics";
+import WordHistory from "./pages/WordHistory";
 import Changelog from "./pages/Changelog";
 import WordDisplays from "./pages/WordDisplays";
 import NotFound from "./pages/NotFound";
@@ -33,7 +35,9 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/activity-log" element={<ActivityLog />} />
               <Route path="/users" element={<Users />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/about/why" element={<Why />} />
+              <Route path="/about/statistics" element={<UsageStatistics />} />
+              <Route path="/about/history" element={<WordHistory />} />
               <Route path="/changelog" element={<Changelog />} />
               <Route path="/word-displays" element={<WordDisplays />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
