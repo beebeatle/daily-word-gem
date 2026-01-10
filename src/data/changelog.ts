@@ -6,6 +6,14 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "2026-01-10.2230",
+    date: "January 10, 2026",
+    changes: [
+      "Added Emails Sent page for admins and moderators",
+      "Email logs include timestamp, recipient, subject, and delivery status",
+    ],
+  },
+  {
     version: "2026-01-10.1900",
     date: "January 10, 2026",
     changes: [
