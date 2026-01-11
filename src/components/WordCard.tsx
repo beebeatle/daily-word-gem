@@ -133,9 +133,6 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
         transition={{ delay: 0.7, duration: 0.6 }}
         className="mb-8"
       >
-        <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-          Definition
-        </h2>
         <p className="definition-text">{word.definition}</p>
       </motion.div>
 
@@ -147,9 +144,6 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
           transition={{ delay: 0.8, duration: 0.6 }}
           className="mb-8"
         >
-          <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-            Quote
-          </h2>
           <blockquote className="example-text mb-2">"{word.quote.text}"</blockquote>
           <p className="font-sans text-sm text-muted-foreground inline-flex items-center gap-2 flex-wrap">
             — <span className="italic">{word.quote.bookTitle}</span> by {word.quote.author}
@@ -214,9 +208,6 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
         transition={{ delay: 0.9, duration: 0.6 }}
         className="mb-8"
       >
-        <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-          Origin
-        </h2>
         <p className="etymology-text">{word.etymology}</p>
       </motion.div>
 
