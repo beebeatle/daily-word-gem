@@ -7,6 +7,7 @@ import { useState, useCallback, useEffect } from "react";
 import { Shuffle, Lightbulb } from "lucide-react";
 import { Link } from "react-router-dom";
 import AboutDropdown from "@/components/AboutDropdown";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { useActivityLog } from "@/hooks/useActivityLogger";
 
@@ -89,15 +90,21 @@ const Index = () => {
         {/* Left side links */}
         <div className="flex items-center gap-2">
           <AboutDropdown />
-          <a
-            href={NOLT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300 font-sans text-xs font-medium"
-          >
-            <Lightbulb className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
-            Request a new feature
-          </a>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <a
+                href={NOLT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-center w-8 h-8 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300"
+              >
+                <Lightbulb className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+              </a>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Request a new feature</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
 
         <UserMenu />
