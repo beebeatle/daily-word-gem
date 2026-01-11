@@ -31,7 +31,7 @@ interface WordCardProps {
   featuredDate?: string;
 }
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 
 const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: WordCardProps) => {
   const { logAction } = useActivityLog();
@@ -288,46 +288,50 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
         transition={{ delay: 1, duration: 0.6 }}
         className="flex items-center justify-center gap-4 mb-8 flex-wrap"
       >
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={onLike}
-              disabled={loading}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
-                userReaction === 'like'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              } ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-              aria-label="Like this word"
-            >
-              <ThumbsUp className="w-4 h-4" />
-              <span className="text-sm font-medium">{counts.likes}</span>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="top" className="max-w-xs">
-            <p className="text-xs">{formatReactionUsers(reactionUsers.likers)}</p>
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={onDislike}
-              disabled={loading}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
-                userReaction === 'dislike'
-                  ? 'bg-destructive text-destructive-foreground'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              } ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-              aria-label="Dislike this word"
-            >
-              <ThumbsDown className="w-4 h-4" />
-              <span className="text-sm font-medium">{counts.dislikes}</span>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="top" className="max-w-xs">
-            <p className="text-xs">{formatReactionUsers(reactionUsers.dislikers)}</p>
-          </TooltipContent>
-        </Tooltip>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={onLike}
+                disabled={loading}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+                  userReaction === 'like'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                } ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                aria-label="Like this word"
+              >
+                <ThumbsUp className="w-4 h-4" />
+                <span className="text-sm font-medium">{counts.likes}</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="max-w-xs touch-auto">
+              <p className="text-xs">{formatReactionUsers(reactionUsers.likers)}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={onDislike}
+                disabled={loading}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+                  userReaction === 'dislike'
+                    ? 'bg-destructive text-destructive-foreground'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                } ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                aria-label="Dislike this word"
+              >
+                <ThumbsDown className="w-4 h-4" />
+                <span className="text-sm font-medium">{counts.dislikes}</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="max-w-xs touch-auto">
+              <p className="text-xs">{formatReactionUsers(reactionUsers.dislikers)}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <button
           onClick={handleQuizOpen}
           className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-200"
