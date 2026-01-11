@@ -24,6 +24,7 @@ interface SessionDetails {
   os: string | null;
   screen_resolution: string | null;
   language: string | null;
+  ip_address: string | null;
 }
 
 interface WordDisplay {
@@ -38,6 +39,7 @@ interface WordDisplay {
   os: string | null;
   screen_resolution: string | null;
   language: string | null;
+  ip_address: string | null;
   created_at: string;
 }
 
@@ -119,7 +121,7 @@ const WordDisplays = () => {
         // Fetch session details from user_actions for these sessions
         const { data: actionsData } = await supabase
           .from('user_actions')
-          .select('session_id, visitor_id, browser, device, os, screen_resolution, language')
+          .select('session_id, visitor_id, browser, device, os, screen_resolution, language, ip_address')
           .in('session_id', sessionIds);
 
         // Create a map of session_id to session details (take the first action's details per session)
@@ -133,6 +135,7 @@ const WordDisplays = () => {
               os: action.os,
               screen_resolution: action.screen_resolution,
               language: action.language,
+              ip_address: action.ip_address,
             });
           }
         });
@@ -148,6 +151,7 @@ const WordDisplays = () => {
             os: details?.os || null,
             screen_resolution: details?.screen_resolution || null,
             language: details?.language || null,
+            ip_address: details?.ip_address || null,
           };
         });
 
@@ -297,6 +301,7 @@ const WordDisplays = () => {
                 <TableHead>User</TableHead>
                 <TableHead>Visitor ID</TableHead>
                 <TableHead>Session ID</TableHead>
+                <TableHead>IP Address</TableHead>
                 <TableHead>Device</TableHead>
                 <TableHead>Browser / OS</TableHead>
                 <TableHead>Screen</TableHead>
@@ -306,7 +311,7 @@ const WordDisplays = () => {
             <TableBody>
               {wordDisplays.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                     No word displays logged yet
                   </TableCell>
                 </TableRow>
@@ -355,6 +360,13 @@ const WordDisplays = () => {
                       >
                         {display.session_id.slice(0, 8)}...
                       </button>
+                    </TableCell>
+                    <TableCell>
+                      {display.ip_address ? (
+                        <span className="text-xs font-mono">{display.ip_address}</span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
                     </TableCell>
                     <TableCell>
                       {display.device ? (
