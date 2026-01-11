@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useAdmin } from '@/hooks/useAdmin';
 import { useUserRole } from '@/hooks/useUserRole';
 import { supabase } from '@/integrations/supabase/client';
-import { ArrowLeft, BookText } from 'lucide-react';
+import { ArrowLeft, BookText, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -30,8 +31,10 @@ const WordDisplays = () => {
   const { isAdmin, loading: adminLoading } = useAdmin();
   const { role } = useUserRole();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [wordDisplays, setWordDisplays] = useState<WordDisplay[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sessionFilter, setSessionFilter] = useState(searchParams.get('session') || '');
 
   const hasAccess = isAdmin || role === 'moderator';
 
@@ -48,11 +51,17 @@ const WordDisplays = () => {
       if (!hasAccess) return;
 
       try {
-        const { data, error } = await supabase
+        let query = supabase
           .from('word_displays')
           .select('*')
           .order('created_at', { ascending: false })
           .limit(100);
+
+        if (sessionFilter) {
+          query = query.eq('session_id', sessionFilter);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
           console.error('Error fetching word displays:', error);
@@ -70,7 +79,17 @@ const WordDisplays = () => {
     if (hasAccess) {
       fetchWordDisplays();
     }
-  }, [hasAccess]);
+  }, [hasAccess, sessionFilter]);
+
+  const handleSessionClick = (sessionId: string) => {
+    setSessionFilter(sessionId);
+    setSearchParams({ session: sessionId });
+  };
+
+  const clearFilter = () => {
+    setSessionFilter('');
+    setSearchParams({});
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
@@ -97,6 +116,18 @@ const WordDisplays = () => {
             <h1 className="text-2xl font-bold">Word Displays</h1>
           </div>
         </div>
+
+        {sessionFilter && (
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-sm text-muted-foreground">Filtering by session:</span>
+            <Badge variant="secondary" className="font-mono text-xs">
+              {sessionFilter.slice(0, 8)}...
+            </Badge>
+            <Button variant="ghost" size="sm" onClick={clearFilter} className="h-6 w-6 p-0">
+              <X className="w-3 h-3" />
+            </Button>
+          </div>
+        )}
 
         <div className="border rounded-lg overflow-hidden">
           <Table>
@@ -131,8 +162,13 @@ const WordDisplays = () => {
                         <Badge variant="outline" className="text-xs">Guest</Badge>
                       )}
                     </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">
-                      {display.session_id.slice(0, 8)}...
+                    <TableCell>
+                      <button
+                        onClick={() => handleSessionClick(display.session_id)}
+                        className="font-mono text-xs text-primary hover:underline cursor-pointer"
+                      >
+                        {display.session_id.slice(0, 8)}...
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))
