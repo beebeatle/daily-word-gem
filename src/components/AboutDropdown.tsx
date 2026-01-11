@@ -1,4 +1,4 @@
-import { Info, ChevronDown, Target, BarChart3, History } from "lucide-react";
+import { Info, Target, BarChart3, History } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   DropdownMenu,
@@ -6,17 +6,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const AboutDropdown = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300 font-sans text-xs font-medium">
-          <Info className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110" />
-          About
-          <ChevronDown className="w-3 h-3 opacity-60" />
-        </button>
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <button className="group flex items-center justify-center w-8 h-8 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300">
+              <Info className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
+            </button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>About</p>
+        </TooltipContent>
+      </Tooltip>
       <DropdownMenuContent align="start" className="w-48 bg-popover border border-border z-50">
         <DropdownMenuItem asChild>
           <Link to="/about/why" className="flex items-center gap-2 cursor-pointer">
