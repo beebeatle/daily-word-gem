@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -32,6 +33,13 @@ const feedbackSchema = z.object({
   feedback_type: z.enum(['bug', 'suggestion', 'general'], {
     required_error: 'Please select a feedback type',
   }),
+  email: z
+    .string()
+    .trim()
+    .email('Please enter a valid email')
+    .max(255, 'Email must be less than 255 characters')
+    .optional()
+    .or(z.literal('')),
   message: z
     .string()
     .trim()
@@ -51,6 +59,7 @@ export const FeedbackDialog = () => {
     resolver: zodResolver(feedbackSchema),
     defaultValues: {
       feedback_type: undefined,
+      email: '',
       message: '',
     },
   });
@@ -58,9 +67,12 @@ export const FeedbackDialog = () => {
   const onSubmit = async (data: FeedbackFormData) => {
     setIsSubmitting(true);
     try {
+      // Use user's email if signed in, otherwise use the form email (if provided)
+      const emailToSave = user?.email || (data.email?.trim() || null);
+      
       const { error } = await supabase.from('feedback').insert({
         user_id: user?.id || null,
-        user_email: user?.email || null,
+        user_email: emailToSave,
         feedback_type: data.feedback_type,
         message: data.message,
         page_path: location.pathname,
@@ -113,6 +125,13 @@ export const FeedbackDialog = () => {
             Report a bug, suggest an improvement, or share your thoughts.
           </DialogDescription>
         </DialogHeader>
+        
+        {user && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
+            <span>Submitting as</span>
+            <span className="font-medium text-foreground">{user.email}</span>
+          </div>
+        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -145,6 +164,25 @@ export const FeedbackDialog = () => {
                 </FormItem>
               )}
             />
+            {!user && (
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email (optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="message"
