@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Word } from "@/data/words";
+import { Word, getBookSearchUrl } from "@/data/words";
 import { motion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles } from "lucide-react";
 import {
   DropdownMenu,
@@ -135,7 +136,17 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
           </h2>
           <blockquote className="example-text mb-2">"{word.quote.text}"</blockquote>
           <p className="font-sans text-sm text-muted-foreground">
-            — <span className="italic">{word.quote.bookTitle}</span> by {word.quote.author}
+            —{" "}
+            <a
+              href={word.quote.bookUrl || getBookSearchUrl(word.quote.bookTitle, word.quote.author)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="italic hover:text-primary transition-colors inline-flex items-center gap-1 underline underline-offset-2"
+            >
+              {word.quote.bookTitle}
+              <ExternalLink className="w-3 h-3" />
+            </a>{" "}
+            by {word.quote.author}
           </p>
         </motion.div>
       )}
