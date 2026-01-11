@@ -294,7 +294,15 @@ export type Database = {
           visitor_id?: string | null
           word?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "word_reactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
     }
     Views: {

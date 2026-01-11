@@ -39,10 +39,10 @@ export const useWordReactions = (word: string) => {
   const visitorId = getVisitorId();
 
   const fetchReactions = useCallback(async () => {
-    // Fetch reactions with user profile info
+    // Fetch reactions
     const { data: reactions, error } = await supabase
       .from('word_reactions')
-      .select('reaction, user_id, visitor_id, profiles(email)')
+      .select('reaction, user_id, visitor_id')
       .eq('word', word);
 
     if (error) {
@@ -55,14 +55,34 @@ export const useWordReactions = (word: string) => {
     
     setCounts({ likes: likesData.length, dislikes: dislikesData.length });
     
+    // Fetch profile emails for users who reacted
+    const userIds = reactions?.map(r => r.user_id).filter((id): id is string => id !== null) || [];
+    
+    let profilesMap: Record<string, string> = {};
+    if (userIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('user_id, email')
+        .in('user_id', userIds);
+      
+      if (profiles) {
+        profilesMap = profiles.reduce((acc, p) => {
+          if (p.user_id && p.email) {
+            acc[p.user_id] = p.email;
+          }
+          return acc;
+        }, {} as Record<string, string>);
+      }
+    }
+    
     // Extract user info for tooltips
     const likers: ReactionUser[] = likesData.map(r => ({
-      email: r.profiles?.email || null,
+      email: r.user_id ? profilesMap[r.user_id] || null : null,
       visitorId: r.visitor_id || null
     }));
     
     const dislikers: ReactionUser[] = dislikesData.map(r => ({
-      email: r.profiles?.email || null,
+      email: r.user_id ? profilesMap[r.user_id] || null : null,
       visitorId: r.visitor_id || null
     }));
     
