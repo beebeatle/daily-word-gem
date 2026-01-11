@@ -217,7 +217,7 @@ const WordHistory = () => {
             <SheetTitle>{selectedWord?.word}</SheetTitle>
           </SheetHeader>
           <div className="pt-6 pb-12">
-            {selectedWord && <WordCard word={selectedWord} featuredDate={selectedDate || undefined} />}
+            {selectedWord && <WordCard word={selectedWord} featuredDate={selectedDate || undefined} readOnly />}
           </div>
         </SheetContent>
       </Sheet>
