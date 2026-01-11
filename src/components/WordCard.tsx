@@ -3,7 +3,8 @@ import { Word, getBookSearchUrl } from "@/data/words";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 
-import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles, Star, Calendar } from "lucide-react";
+import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles, Star, Calendar, Share2, Check } from "lucide-react";
+import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,9 +35,25 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
   const { counts, userReaction, handleReaction, loading } = useWordReactions(word.word);
   const [quizOpen, setQuizOpen] = useState(false);
 
+  const [copied, setCopied] = useState(false);
+
   const handleQuizOpen = () => {
     logAction('button_click', `Quiz: ${word.word}`);
     setQuizOpen(true);
+  };
+
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/?word=${encodeURIComponent(word.word)}`;
+    logAction('button_click', `Share: ${word.word}`);
+    
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      toast.success("Link copied to clipboard!");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Failed to copy link");
+    }
   };
 
   const speakWord = () => {
@@ -252,6 +269,14 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
         >
           <Sparkles className="w-4 h-4" />
           <span className="text-sm font-medium">Quiz</span>
+        </button>
+        <button
+          onClick={handleShare}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-all duration-200"
+          aria-label="Share this word"
+        >
+          {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
+          <span className="text-sm font-medium">{copied ? "Copied!" : "Share"}</span>
         </button>
       </motion.div>
 
