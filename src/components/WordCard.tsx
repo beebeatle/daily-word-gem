@@ -58,8 +58,16 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
 
   const speakWord = () => {
     logAction('button_click', 'Pronunciation');
-    const utterance = new SpeechSynthesisUtterance(word.word);
-    utterance.rate = 0.8;
+    
+    // Build the full text to speak
+    let textToSpeak = word.word;
+    textToSpeak += `. ${word.definition}`;
+    if (word.quote) {
+      textToSpeak += `. Quote: "${word.quote.text}"`;
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.rate = 0.85;
     speechSynthesis.speak(utterance);
   };
 
