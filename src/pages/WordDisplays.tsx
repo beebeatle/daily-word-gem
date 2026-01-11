@@ -25,6 +25,7 @@ interface SessionDetails {
   screen_resolution: string | null;
   language: string | null;
   ip_address: string | null;
+  user_agent: string | null;
 }
 
 interface WordDisplay {
@@ -40,6 +41,7 @@ interface WordDisplay {
   screen_resolution: string | null;
   language: string | null;
   ip_address: string | null;
+  user_agent: string | null;
   created_at: string;
 }
 
@@ -121,7 +123,7 @@ const WordDisplays = () => {
         // Fetch session details from user_actions for these sessions
         const { data: actionsData } = await supabase
           .from('user_actions')
-          .select('session_id, visitor_id, browser, device, os, screen_resolution, language, ip_address')
+          .select('session_id, visitor_id, browser, device, os, screen_resolution, language, ip_address, user_agent')
           .in('session_id', sessionIds);
 
         // Create a map of session_id to session details (take the first action's details per session)
@@ -136,6 +138,7 @@ const WordDisplays = () => {
               screen_resolution: action.screen_resolution,
               language: action.language,
               ip_address: action.ip_address,
+              user_agent: action.user_agent,
             });
           }
         });
@@ -152,6 +155,7 @@ const WordDisplays = () => {
             screen_resolution: details?.screen_resolution || null,
             language: details?.language || null,
             ip_address: details?.ip_address || null,
+            user_agent: details?.user_agent || null,
           };
         });
 
@@ -306,12 +310,13 @@ const WordDisplays = () => {
                 <TableHead>Browser / OS</TableHead>
                 <TableHead>Screen</TableHead>
                 <TableHead>Lang</TableHead>
+                <TableHead>User Agent</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {wordDisplays.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
                     No word displays logged yet
                   </TableCell>
                 </TableRow>
@@ -403,6 +408,15 @@ const WordDisplays = () => {
                     <TableCell>
                       {display.language ? (
                         <span className="text-xs">{display.language}</span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {display.user_agent ? (
+                        <span className="text-xs font-mono max-w-[200px] truncate block" title={display.user_agent}>
+                          {display.user_agent}
+                        </span>
                       ) : (
                         <span className="text-xs text-muted-foreground">—</span>
                       )}
