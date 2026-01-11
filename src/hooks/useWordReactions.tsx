@@ -10,6 +10,16 @@ interface ReactionCounts {
   dislikes: number;
 }
 
+interface ReactionUser {
+  email: string | null;
+  visitorId: string | null;
+}
+
+interface ReactionUsers {
+  likers: ReactionUser[];
+  dislikers: ReactionUser[];
+}
+
 const getVisitorId = (): string => {
   let visitorId = localStorage.getItem('visitor_id');
   if (!visitorId) {
@@ -22,16 +32,17 @@ const getVisitorId = (): string => {
 export const useWordReactions = (word: string) => {
   const { user } = useAuth();
   const [counts, setCounts] = useState<ReactionCounts>({ likes: 0, dislikes: 0 });
+  const [reactionUsers, setReactionUsers] = useState<ReactionUsers>({ likers: [], dislikers: [] });
   const [userReaction, setUserReaction] = useState<ReactionType | null>(null);
   const [loading, setLoading] = useState(false);
 
   const visitorId = getVisitorId();
 
   const fetchReactions = useCallback(async () => {
-    // Fetch counts for this word
+    // Fetch reactions with user profile info
     const { data: reactions, error } = await supabase
       .from('word_reactions')
-      .select('reaction, user_id, visitor_id')
+      .select('reaction, user_id, visitor_id, profiles(email)')
       .eq('word', word);
 
     if (error) {
@@ -39,9 +50,23 @@ export const useWordReactions = (word: string) => {
       return;
     }
 
-    const likes = reactions?.filter(r => r.reaction === 'like').length || 0;
-    const dislikes = reactions?.filter(r => r.reaction === 'dislike').length || 0;
-    setCounts({ likes, dislikes });
+    const likesData = reactions?.filter(r => r.reaction === 'like') || [];
+    const dislikesData = reactions?.filter(r => r.reaction === 'dislike') || [];
+    
+    setCounts({ likes: likesData.length, dislikes: dislikesData.length });
+    
+    // Extract user info for tooltips
+    const likers: ReactionUser[] = likesData.map(r => ({
+      email: r.profiles?.email || null,
+      visitorId: r.visitor_id || null
+    }));
+    
+    const dislikers: ReactionUser[] = dislikesData.map(r => ({
+      email: r.profiles?.email || null,
+      visitorId: r.visitor_id || null
+    }));
+    
+    setReactionUsers({ likers, dislikers });
 
     // Check if current user/visitor has reacted
     let userReactionData;
@@ -130,5 +155,5 @@ export const useWordReactions = (word: string) => {
     }
   };
 
-  return { counts, userReaction, handleReaction, loading };
+  return { counts, reactionUsers, userReaction, handleReaction, loading };
 };
