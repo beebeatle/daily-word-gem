@@ -122,18 +122,23 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
         <p className="definition-text">{word.definition}</p>
       </motion.div>
 
-      {/* Example */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.6 }}
-        className="mb-8"
-      >
-        <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-          Example
-        </h2>
-        <blockquote className="example-text">"{word.example}"</blockquote>
-      </motion.div>
+      {/* Quote */}
+      {word.quote && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="mb-8"
+        >
+          <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
+            Quote
+          </h2>
+          <blockquote className="example-text mb-2">"{word.quote.text}"</blockquote>
+          <p className="font-sans text-sm text-muted-foreground">
+            — <span className="italic">{word.quote.bookTitle}</span> by {word.quote.author}
+          </p>
+        </motion.div>
+      )}
 
       {/* Etymology */}
       <motion.div
@@ -148,23 +153,6 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
         <p className="etymology-text">{word.etymology}</p>
       </motion.div>
 
-      {/* Quote */}
-      {word.quote && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.95, duration: 0.6 }}
-          className="mb-8"
-        >
-          <h2 className="font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-            Quote
-          </h2>
-          <blockquote className="example-text mb-2">"{word.quote.text}"</blockquote>
-          <p className="font-sans text-sm text-muted-foreground">
-            — <span className="italic">{word.quote.bookTitle}</span> by {word.quote.author}
-          </p>
-        </motion.div>
-      )}
 
       {/* Reactions and Quiz */}
       <motion.div
