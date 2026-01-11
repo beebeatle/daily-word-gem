@@ -116,14 +116,6 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
           </button>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-4"
-        >
-          <span className="part-of-speech">{word.partOfSpeech}</span>
-        </motion.div>
       </div>
 
       {/* Decorative Divider */}
