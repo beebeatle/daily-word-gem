@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useAdmin } from '@/hooks/useAdmin';
 import { useUserRole } from '@/hooks/useUserRole';
 import { supabase } from '@/integrations/supabase/client';
-import { ArrowLeft, BookText, X } from 'lucide-react';
+import { ArrowLeft, BookText, X, Monitor, Smartphone, Tablet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -17,6 +17,15 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+interface SessionDetails {
+  visitor_id: string | null;
+  browser: string | null;
+  device: string | null;
+  os: string | null;
+  screen_resolution: string | null;
+  language: string | null;
+}
+
 interface WordDisplay {
   id: string;
   word: string;
@@ -24,6 +33,11 @@ interface WordDisplay {
   user_email: string | null;
   session_id: string;
   visitor_id: string | null;
+  browser: string | null;
+  device: string | null;
+  os: string | null;
+  screen_resolution: string | null;
+  language: string | null;
   created_at: string;
 }
 
@@ -99,29 +113,43 @@ const WordDisplays = () => {
           return;
         }
 
-        // Get unique session IDs to fetch visitor IDs
+        // Get unique session IDs to fetch session details
         const sessionIds = [...new Set((data || []).map(d => d.session_id))];
         
-        // Fetch visitor IDs from user_actions for these sessions
+        // Fetch session details from user_actions for these sessions
         const { data: actionsData } = await supabase
           .from('user_actions')
-          .select('session_id, visitor_id')
-          .in('session_id', sessionIds)
-          .not('visitor_id', 'is', null);
+          .select('session_id, visitor_id, browser, device, os, screen_resolution, language')
+          .in('session_id', sessionIds);
 
-        // Create a map of session_id to visitor_id
-        const sessionToVisitor = new Map<string, string>();
+        // Create a map of session_id to session details (take the first action's details per session)
+        const sessionDetails = new Map<string, SessionDetails>();
         (actionsData || []).forEach(action => {
-          if (action.visitor_id && !sessionToVisitor.has(action.session_id)) {
-            sessionToVisitor.set(action.session_id, action.visitor_id);
+          if (!sessionDetails.has(action.session_id)) {
+            sessionDetails.set(action.session_id, {
+              visitor_id: action.visitor_id,
+              browser: action.browser,
+              device: action.device,
+              os: action.os,
+              screen_resolution: action.screen_resolution,
+              language: action.language,
+            });
           }
         });
 
-        // Enrich word displays with visitor_id
-        const enrichedData = (data || []).map(display => ({
-          ...display,
-          visitor_id: sessionToVisitor.get(display.session_id) || null
-        }));
+        // Enrich word displays with session details
+        const enrichedData = (data || []).map(display => {
+          const details = sessionDetails.get(display.session_id);
+          return {
+            ...display,
+            visitor_id: details?.visitor_id || null,
+            browser: details?.browser || null,
+            device: details?.device || null,
+            os: details?.os || null,
+            screen_resolution: details?.screen_resolution || null,
+            language: details?.language || null,
+          };
+        });
 
         setWordDisplays(enrichedData);
       } catch (error) {
@@ -260,7 +288,7 @@ const WordDisplays = () => {
           </div>
         )}
 
-        <div className="border rounded-lg overflow-hidden">
+        <div className="border rounded-lg overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -269,12 +297,16 @@ const WordDisplays = () => {
                 <TableHead>User</TableHead>
                 <TableHead>Visitor ID</TableHead>
                 <TableHead>Session ID</TableHead>
+                <TableHead>Device</TableHead>
+                <TableHead>Browser / OS</TableHead>
+                <TableHead>Screen</TableHead>
+                <TableHead>Lang</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {wordDisplays.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
                     No word displays logged yet
                   </TableCell>
                 </TableRow>
@@ -323,6 +355,45 @@ const WordDisplays = () => {
                       >
                         {display.session_id.slice(0, 8)}...
                       </button>
+                    </TableCell>
+                    <TableCell>
+                      {display.device ? (
+                        <div className="flex items-center gap-1">
+                          {display.device === 'Mobile' ? (
+                            <Smartphone className="w-3 h-3 text-muted-foreground" />
+                          ) : display.device === 'Tablet' ? (
+                            <Tablet className="w-3 h-3 text-muted-foreground" />
+                          ) : (
+                            <Monitor className="w-3 h-3 text-muted-foreground" />
+                          )}
+                          <span className="text-xs">{display.device}</span>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {display.browser || display.os ? (
+                        <span className="text-xs">
+                          {display.browser}{display.browser && display.os ? ' / ' : ''}{display.os}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {display.screen_resolution ? (
+                        <span className="text-xs font-mono">{display.screen_resolution}</span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {display.language ? (
+                        <span className="text-xs">{display.language}</span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))
