@@ -3,7 +3,7 @@ import { Word, getBookSearchUrl } from "@/data/words";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 
-import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles, Star, Calendar, Share2, Check } from "lucide-react";
+import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles, Star, Calendar, Share2, Check, Loader2, Square } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useActivityLog } from "@/hooks/useActivityLogger";
 import { useWordReactions } from "@/hooks/useWordReactions";
+import { useElevenLabsTTS } from "@/hooks/useElevenLabsTTS";
 import WordQuiz from "./WordQuiz";
 const WORD_TYPES = [
   { value: "all", label: "All" },
@@ -33,6 +34,7 @@ interface WordCardProps {
 const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: WordCardProps) => {
   const { logAction } = useActivityLog();
   const { counts, userReaction, handleReaction, loading } = useWordReactions(word.word);
+  const { speak, stop, isPlaying, isLoading } = useElevenLabsTTS();
   const [quizOpen, setQuizOpen] = useState(false);
 
   const [copied, setCopied] = useState(false);
@@ -56,7 +58,12 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
     }
   };
 
-  const speakWord = () => {
+  const speakWord = async () => {
+    if (isPlaying) {
+      stop();
+      return;
+    }
+    
     logAction('button_click', 'Pronunciation');
     
     // Build the full text to speak
@@ -66,9 +73,11 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
       textToSpeak += `. Quote: "${word.quote.text}"`;
     }
     
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.rate = 0.85;
-    speechSynthesis.speak(utterance);
+    try {
+      await speak(textToSpeak);
+    } catch {
+      toast.error("Failed to play audio. Please try again.");
+    }
   };
 
   const handleCategorySelect = (category: string) => {
@@ -134,10 +143,21 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
           <span className="pronunciation">{word.pronunciation}</span>
           <button
             onClick={speakWord}
-            className="p-2 rounded-full hover:bg-primary/10 transition-colors duration-200 text-muted-foreground hover:text-primary"
-            aria-label="Listen to pronunciation"
+            disabled={isLoading}
+            className={`p-2 rounded-full transition-colors duration-200 ${
+              isPlaying 
+                ? 'bg-primary/20 text-primary' 
+                : 'hover:bg-primary/10 text-muted-foreground hover:text-primary'
+            } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            aria-label={isPlaying ? "Stop pronunciation" : "Listen to pronunciation"}
           >
-            <Volume2 className="w-5 h-5" />
+            {isLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : isPlaying ? (
+              <Square className="w-5 h-5" />
+            ) : (
+              <Volume2 className="w-5 h-5" />
+            )}
           </button>
         </motion.div>
 
