@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Word, getBookSearchUrl } from "@/data/words";
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+
 import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles } from "lucide-react";
 import {
   DropdownMenu,
@@ -135,18 +135,19 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
             Quote
           </h2>
           <blockquote className="example-text mb-2">"{word.quote.text}"</blockquote>
-          <p className="font-sans text-sm text-muted-foreground">
-            —{" "}
+          <p className="font-sans text-sm text-muted-foreground inline-flex items-center gap-1.5">
+            — <span className="italic">{word.quote.bookTitle}</span> by {word.quote.author}
             <a
               href={word.quote.bookUrl || getBookSearchUrl(word.quote.bookTitle, word.quote.author)}
               target="_blank"
               rel="noopener noreferrer"
-              className="italic hover:text-primary transition-colors inline-flex items-center gap-1 underline underline-offset-2"
+              className="hover:text-primary transition-colors"
+              title="Find on Goodreads"
             >
-              {word.quote.bookTitle}
-              <ExternalLink className="w-3 h-3" />
-            </a>{" "}
-            by {word.quote.author}
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.84 3.5c2.34 0 4.07.76 5.2 2.27s1.67 3.7 1.63 6.55c.04 2.86-.53 5.06-1.7 6.6s-2.91 2.31-5.25 2.31c-1.33 0-2.41-.29-3.24-.87s-1.44-1.39-1.84-2.43h-.05v3.07H4V.75h3.64v5.82h.05c.4-1.02 1-1.82 1.81-2.39s1.84-.87 3.07-.87l.27.19zm-.67 14.45c1.34 0 2.34-.52 3-1.57s.99-2.56.99-4.52c0-1.92-.32-3.38-.97-4.39s-1.6-1.51-2.86-1.51c-1.4 0-2.46.53-3.2 1.58s-1.1 2.51-1.1 4.38c0 1.95.36 3.45 1.08 4.5s1.75 1.53 3.06 1.53zm8.23-6.66v8.21h-3.64v-8.21h3.64z"/>
+              </svg>
+            </a>
           </p>
         </motion.div>
       )}
