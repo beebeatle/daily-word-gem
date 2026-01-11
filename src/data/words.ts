@@ -2,7 +2,14 @@ export interface Quote {
   text: string;
   bookTitle: string;
   author: string;
+  bookUrl?: string;
 }
+
+// Helper to generate Goodreads search URL
+export const getBookSearchUrl = (bookTitle: string, author: string): string => {
+  const query = encodeURIComponent(`${bookTitle} ${author}`);
+  return `https://www.goodreads.com/search?q=${query}`;
+};
 
 export interface Word {
   word: string;
