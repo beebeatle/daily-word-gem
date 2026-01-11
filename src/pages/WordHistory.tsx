@@ -177,7 +177,7 @@ const WordHistory = () => {
                           <div className="flex items-center gap-1.5 text-muted-foreground">
                             <Calendar className="w-3.5 h-3.5" />
                             <span className="font-sans text-xs">
-                              {format(new Date(item.date), "MMM d, yyyy")}
+                              {format(new Date(item.date + "T00:00:00"), "MMM d, yyyy")}
                             </span>
                           </div>
                         </div>
