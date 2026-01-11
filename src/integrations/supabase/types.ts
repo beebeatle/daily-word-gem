@@ -222,6 +222,7 @@ export type Database = {
           session_id: string
           user_email: string | null
           user_id: string | null
+          visitor_id: string | null
           word: string
         }
         Insert: {
@@ -230,6 +231,7 @@ export type Database = {
           session_id: string
           user_email?: string | null
           user_id?: string | null
+          visitor_id?: string | null
           word: string
         }
         Update: {
@@ -238,6 +240,7 @@ export type Database = {
           session_id?: string
           user_email?: string | null
           user_id?: string | null
+          visitor_id?: string | null
           word?: string
         }
         Relationships: []
