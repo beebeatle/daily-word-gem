@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
@@ -26,15 +27,23 @@ const UserMenu = () => {
 
   if (!user) {
     return (
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => navigate('/auth')}
-        className="font-sans text-sm"
-      >
-        <User className="w-4 h-4 mr-2" />
-        Sign in
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/auth')}
+            className="rounded-full"
+          >
+            <div className="w-8 h-8 rounded-full bg-secondary/80 hover:bg-secondary flex items-center justify-center transition-all duration-300">
+              <User className="w-4 h-4" />
+            </div>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Sign in</p>
+        </TooltipContent>
+      </Tooltip>
     );
   }
 
