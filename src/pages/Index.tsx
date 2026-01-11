@@ -4,6 +4,7 @@ import WordCard from "@/components/WordCard";
 import UserMenu from "@/components/UserMenu";
 import { motion } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Shuffle, Lightbulb } from "lucide-react";
 import { Link } from "react-router-dom";
 import AboutDropdown from "@/components/AboutDropdown";
@@ -16,6 +17,7 @@ const NOLT_URL = "https://worddelight.nolt.io";
 const CATEGORY_STORAGE_KEY = 'worddelight_active_category';
 
 const Index = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { preferredWordTypes, loading } = useUserPreferences();
   const { logButtonClick, logWordDisplay } = useActivityLog();
   const [currentWord, setCurrentWord] = useState<Word | null>(null);
@@ -25,20 +27,40 @@ const Index = () => {
     const saved = localStorage.getItem(CATEGORY_STORAGE_KEY);
     return saved || null;
   });
+  const [initialWordLoaded, setInitialWordLoaded] = useState(false);
   const currentDate = formatDate();
 
-  // Set initial word based on active category (from localStorage) or user preferences
+  // Set initial word - check URL param first, then category/preferences
   useEffect(() => {
-    if (!loading) {
-      // Use active category if set, otherwise fall back to user preferences
+    if (!loading && !initialWordLoaded) {
+      const wordFromUrl = searchParams.get('word');
+      
+      if (wordFromUrl) {
+        // Find the word in our collection (case-insensitive)
+        const foundWord = words.find(
+          w => w.word.toLowerCase() === wordFromUrl.toLowerCase()
+        );
+        
+        if (foundWord) {
+          setCurrentWord(foundWord);
+          logWordDisplay(foundWord.word);
+          // Clear the URL param after loading
+          setSearchParams({}, { replace: true });
+          setInitialWordLoaded(true);
+          return;
+        }
+      }
+      
+      // Fallback to category/preferences logic
       const typesToUse = activeCategory ? [activeCategory] : preferredWordTypes;
       const filteredWords = getWordsByType(typesToUse);
       const wordPool = filteredWords.length > 0 ? filteredWords : words;
       const randomWord = wordPool[Math.floor(Math.random() * wordPool.length)];
       setCurrentWord(randomWord);
       logWordDisplay(randomWord.word);
+      setInitialWordLoaded(true);
     }
-  }, [loading, preferredWordTypes, activeCategory, logWordDisplay]);
+  }, [loading, preferredWordTypes, activeCategory, logWordDisplay, searchParams, setSearchParams, initialWordLoaded]);
 
   const shuffleWord = useCallback(() => {
     logButtonClick('Try another word');
