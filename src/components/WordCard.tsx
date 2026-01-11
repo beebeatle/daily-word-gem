@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { Word } from "@/data/words";
 import { motion } from "framer-motion";
-import { Volume2, ChevronDown, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useActivityLog } from "@/hooks/useActivityLogger";
 import { useWordReactions } from "@/hooks/useWordReactions";
+import WordQuiz from "./WordQuiz";
 const WORD_TYPES = [
   { value: "all", label: "All" },
   { value: "general", label: "General" },
@@ -27,6 +29,12 @@ interface WordCardProps {
 const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => {
   const { logAction } = useActivityLog();
   const { counts, userReaction, handleReaction, loading } = useWordReactions(word.word);
+  const [quizOpen, setQuizOpen] = useState(false);
+
+  const handleQuizOpen = () => {
+    logAction('button_click', `Quiz: ${word.word}`);
+    setQuizOpen(true);
+  };
 
   const speakWord = () => {
     logAction('button_click', 'Pronunciation');
@@ -140,12 +148,12 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
         <p className="etymology-text">{word.etymology}</p>
       </motion.div>
 
-      {/* Reactions */}
+      {/* Reactions and Quiz */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.6 }}
-        className="flex items-center justify-center gap-6 mb-8"
+        className="flex items-center justify-center gap-4 mb-8 flex-wrap"
       >
         <button
           onClick={onLike}
@@ -173,7 +181,18 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
           <ThumbsDown className="w-4 h-4" />
           <span className="text-sm font-medium">{counts.dislikes}</span>
         </button>
+        <button
+          onClick={handleQuizOpen}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-200"
+          aria-label="Play quiz"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span className="text-sm font-medium">Quiz</span>
+        </button>
       </motion.div>
+
+      {/* Quiz Dialog */}
+      <WordQuiz word={word} open={quizOpen} onOpenChange={setQuizOpen} />
 
       {/* Category */}
       <motion.div
