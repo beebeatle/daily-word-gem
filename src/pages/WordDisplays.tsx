@@ -23,6 +23,7 @@ interface WordDisplay {
   user_id: string | null;
   user_email: string | null;
   session_id: string;
+  visitor_id: string | null;
   created_at: string;
 }
 
@@ -52,6 +53,7 @@ const WordDisplays = () => {
       if (!hasAccess) return;
 
       try {
+        // First fetch word displays
         let query = supabase
           .from('word_displays')
           .select('*')
@@ -73,7 +75,31 @@ const WordDisplays = () => {
           return;
         }
 
-        setWordDisplays(data || []);
+        // Get unique session IDs to fetch visitor IDs
+        const sessionIds = [...new Set((data || []).map(d => d.session_id))];
+        
+        // Fetch visitor IDs from user_actions for these sessions
+        const { data: actionsData } = await supabase
+          .from('user_actions')
+          .select('session_id, visitor_id')
+          .in('session_id', sessionIds)
+          .not('visitor_id', 'is', null);
+
+        // Create a map of session_id to visitor_id
+        const sessionToVisitor = new Map<string, string>();
+        (actionsData || []).forEach(action => {
+          if (action.visitor_id && !sessionToVisitor.has(action.session_id)) {
+            sessionToVisitor.set(action.session_id, action.visitor_id);
+          }
+        });
+
+        // Enrich word displays with visitor_id
+        const enrichedData = (data || []).map(display => ({
+          ...display,
+          visitor_id: sessionToVisitor.get(display.session_id) || null
+        }));
+
+        setWordDisplays(enrichedData);
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -178,13 +204,14 @@ const WordDisplays = () => {
                 <TableHead>Word</TableHead>
                 <TableHead>Timestamp</TableHead>
                 <TableHead>User</TableHead>
+                <TableHead>Visitor ID</TableHead>
                 <TableHead>Session ID</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {wordDisplays.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                     No word displays logged yet
                   </TableCell>
                 </TableRow>
@@ -207,6 +234,15 @@ const WordDisplays = () => {
                         <span className="text-sm">{display.user_email}</span>
                       ) : (
                         <Badge variant="outline" className="text-xs">Guest</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {display.visitor_id ? (
+                        <span className="font-mono text-xs text-muted-foreground">
+                          {display.visitor_id.slice(0, 8)}...
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
                       )}
                     </TableCell>
                     <TableCell>
