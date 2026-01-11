@@ -37,6 +37,8 @@ const WordDisplays = () => {
   const [loading, setLoading] = useState(true);
   const [sessionFilter, setSessionFilter] = useState(searchParams.get('session') || '');
   const [wordFilter, setWordFilter] = useState(searchParams.get('word') || '');
+  const [visitorFilter, setVisitorFilter] = useState(searchParams.get('visitor') || '');
+  const [userFilter, setUserFilter] = useState(searchParams.get('user') || '');
 
   const hasAccess = isAdmin || role === 'moderator';
 
@@ -53,7 +55,21 @@ const WordDisplays = () => {
       if (!hasAccess) return;
 
       try {
-        // First fetch word displays
+        // If filtering by visitor, first get session IDs for that visitor
+        let visitorSessionIds: string[] | null = null;
+        if (visitorFilter) {
+          const { data: visitorSessions } = await supabase
+            .from('user_actions')
+            .select('session_id')
+            .eq('visitor_id', visitorFilter);
+          visitorSessionIds = [...new Set((visitorSessions || []).map(s => s.session_id))];
+          if (visitorSessionIds.length === 0) {
+            setWordDisplays([]);
+            return;
+          }
+        }
+
+        // Fetch word displays
         let query = supabase
           .from('word_displays')
           .select('*')
@@ -66,6 +82,14 @@ const WordDisplays = () => {
 
         if (wordFilter) {
           query = query.eq('word', wordFilter);
+        }
+
+        if (userFilter) {
+          query = query.eq('user_email', userFilter);
+        }
+
+        if (visitorSessionIds) {
+          query = query.in('session_id', visitorSessionIds);
         }
 
         const { data, error } = await query;
@@ -110,38 +134,55 @@ const WordDisplays = () => {
     if (hasAccess) {
       fetchWordDisplays();
     }
-  }, [hasAccess, sessionFilter, wordFilter]);
+  }, [hasAccess, sessionFilter, wordFilter, visitorFilter, userFilter]);
+
+  const buildParams = (updates: Record<string, string | null>) => {
+    const params: Record<string, string> = {};
+    const current = { session: sessionFilter, word: wordFilter, visitor: visitorFilter, user: userFilter };
+    Object.entries({ ...current, ...updates }).forEach(([key, val]) => {
+      if (val) params[key] = val;
+    });
+    return params;
+  };
 
   const handleSessionClick = (sessionId: string) => {
     setSessionFilter(sessionId);
-    const params: Record<string, string> = { session: sessionId };
-    if (wordFilter) params.word = wordFilter;
-    setSearchParams(params);
+    setSearchParams(buildParams({ session: sessionId }));
   };
 
   const handleWordClick = (word: string) => {
     setWordFilter(word);
-    const params: Record<string, string> = { word };
-    if (sessionFilter) params.session = sessionFilter;
-    setSearchParams(params);
+    setSearchParams(buildParams({ word }));
+  };
+
+  const handleVisitorClick = (visitorId: string) => {
+    setVisitorFilter(visitorId);
+    setSearchParams(buildParams({ visitor: visitorId }));
+  };
+
+  const handleUserClick = (userEmail: string) => {
+    setUserFilter(userEmail);
+    setSearchParams(buildParams({ user: userEmail }));
   };
 
   const clearSessionFilter = () => {
     setSessionFilter('');
-    if (wordFilter) {
-      setSearchParams({ word: wordFilter });
-    } else {
-      setSearchParams({});
-    }
+    setSearchParams(buildParams({ session: null }));
   };
 
   const clearWordFilter = () => {
     setWordFilter('');
-    if (sessionFilter) {
-      setSearchParams({ session: sessionFilter });
-    } else {
-      setSearchParams({});
-    }
+    setSearchParams(buildParams({ word: null }));
+  };
+
+  const clearVisitorFilter = () => {
+    setVisitorFilter('');
+    setSearchParams(buildParams({ visitor: null }));
+  };
+
+  const clearUserFilter = () => {
+    setUserFilter('');
+    setSearchParams(buildParams({ user: null }));
   };
 
   const formatDate = (dateString: string) => {
@@ -170,7 +211,7 @@ const WordDisplays = () => {
           </div>
         </div>
 
-        {(sessionFilter || wordFilter) && (
+        {(sessionFilter || wordFilter || visitorFilter || userFilter) && (
           <div className="flex items-center gap-2 mb-4 flex-wrap">
             {wordFilter && (
               <>
@@ -179,6 +220,28 @@ const WordDisplays = () => {
                   {wordFilter}
                 </Badge>
                 <Button variant="ghost" size="sm" onClick={clearWordFilter} className="h-6 w-6 p-0">
+                  <X className="w-3 h-3" />
+                </Button>
+              </>
+            )}
+            {userFilter && (
+              <>
+                <span className="text-sm text-muted-foreground">User:</span>
+                <Badge variant="secondary" className="text-xs">
+                  {userFilter}
+                </Badge>
+                <Button variant="ghost" size="sm" onClick={clearUserFilter} className="h-6 w-6 p-0">
+                  <X className="w-3 h-3" />
+                </Button>
+              </>
+            )}
+            {visitorFilter && (
+              <>
+                <span className="text-sm text-muted-foreground">Visitor:</span>
+                <Badge variant="secondary" className="font-mono text-xs">
+                  {visitorFilter.slice(0, 8)}...
+                </Badge>
+                <Button variant="ghost" size="sm" onClick={clearVisitorFilter} className="h-6 w-6 p-0">
                   <X className="w-3 h-3" />
                 </Button>
               </>
@@ -231,16 +294,24 @@ const WordDisplays = () => {
                     </TableCell>
                     <TableCell>
                       {display.user_email ? (
-                        <span className="text-sm">{display.user_email}</span>
+                        <button
+                          onClick={() => handleUserClick(display.user_email!)}
+                          className="text-sm text-primary hover:underline cursor-pointer"
+                        >
+                          {display.user_email}
+                        </button>
                       ) : (
                         <Badge variant="outline" className="text-xs">Guest</Badge>
                       )}
                     </TableCell>
                     <TableCell>
                       {display.visitor_id ? (
-                        <span className="font-mono text-xs text-muted-foreground">
+                        <button
+                          onClick={() => handleVisitorClick(display.visitor_id!)}
+                          className="font-mono text-xs text-primary hover:underline cursor-pointer"
+                        >
                           {display.visitor_id.slice(0, 8)}...
-                        </span>
+                        </button>
                       ) : (
                         <span className="text-xs text-muted-foreground">—</span>
                       )}
