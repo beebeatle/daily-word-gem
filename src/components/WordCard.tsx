@@ -29,11 +29,12 @@ interface WordCardProps {
   onCategoryChange?: (category: string) => void;
   isFilterActive?: boolean;
   featuredDate?: string;
+  readOnly?: boolean;
 }
 
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 
-const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: WordCardProps) => {
+const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate, readOnly = false }: WordCardProps) => {
   const { logAction } = useActivityLog();
   const { counts, reactionUsers, userReaction, handleReaction, loading } = useWordReactions(word.word);
   const { speak, stop, isPlaying, isLoading } = useElevenLabsTTS();
@@ -360,32 +361,38 @@ const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: Word
         transition={{ delay: 1.1, duration: 0.6 }}
         className="text-center"
       >
-        <div className="inline-flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className={`inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer ${isFilterActive ? 'ring-2 ring-foreground' : ''}`}>
-                {isFilterActive ? word.type : 'All'}
-                <ChevronDown className="w-3 h-3" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
-              {WORD_TYPES.map((type) => (
-                <DropdownMenuItem
-                  key={type.value}
-                  onClick={() => handleCategorySelect(type.value)}
-                  className="cursor-pointer"
-                >
-                  {type.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {!isFilterActive && (
-            <span className="text-xs text-muted-foreground capitalize">
-              ({word.type})
-            </span>
-          )}
-        </div>
+        {readOnly ? (
+          <span className="inline-flex items-center text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground">
+            {word.type}
+          </span>
+        ) : (
+          <div className="inline-flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className={`inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer ${isFilterActive ? 'ring-2 ring-foreground' : ''}`}>
+                  {isFilterActive ? word.type : 'All'}
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center">
+                {WORD_TYPES.map((type) => (
+                  <DropdownMenuItem
+                    key={type.value}
+                    onClick={() => handleCategorySelect(type.value)}
+                    className="cursor-pointer"
+                  >
+                    {type.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {!isFilterActive && (
+              <span className="text-xs text-muted-foreground capitalize">
+                ({word.type})
+              </span>
+            )}
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );
