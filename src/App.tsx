@@ -17,6 +17,7 @@ import WordHistory from "./pages/WordHistory";
 import Changelog from "./pages/Changelog";
 import WordDisplays from "./pages/WordDisplays";
 import EmailsSent from "./pages/EmailsSent";
+import Feedback from "./pages/Feedback";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/changelog" element={<Changelog />} />
               <Route path="/word-displays" element={<WordDisplays />} />
               <Route path="/emails-sent" element={<EmailsSent />} />
+              <Route path="/feedback" element={<Feedback />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
