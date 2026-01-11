@@ -35,6 +35,7 @@ const WordDisplays = () => {
   const [wordDisplays, setWordDisplays] = useState<WordDisplay[]>([]);
   const [loading, setLoading] = useState(true);
   const [sessionFilter, setSessionFilter] = useState(searchParams.get('session') || '');
+  const [wordFilter, setWordFilter] = useState(searchParams.get('word') || '');
 
   const hasAccess = isAdmin || role === 'moderator';
 
@@ -61,6 +62,10 @@ const WordDisplays = () => {
           query = query.eq('session_id', sessionFilter);
         }
 
+        if (wordFilter) {
+          query = query.eq('word', wordFilter);
+        }
+
         const { data, error } = await query;
 
         if (error) {
@@ -79,16 +84,38 @@ const WordDisplays = () => {
     if (hasAccess) {
       fetchWordDisplays();
     }
-  }, [hasAccess, sessionFilter]);
+  }, [hasAccess, sessionFilter, wordFilter]);
 
   const handleSessionClick = (sessionId: string) => {
     setSessionFilter(sessionId);
-    setSearchParams({ session: sessionId });
+    const params: Record<string, string> = { session: sessionId };
+    if (wordFilter) params.word = wordFilter;
+    setSearchParams(params);
   };
 
-  const clearFilter = () => {
+  const handleWordClick = (word: string) => {
+    setWordFilter(word);
+    const params: Record<string, string> = { word };
+    if (sessionFilter) params.session = sessionFilter;
+    setSearchParams(params);
+  };
+
+  const clearSessionFilter = () => {
     setSessionFilter('');
-    setSearchParams({});
+    if (wordFilter) {
+      setSearchParams({ word: wordFilter });
+    } else {
+      setSearchParams({});
+    }
+  };
+
+  const clearWordFilter = () => {
+    setWordFilter('');
+    if (sessionFilter) {
+      setSearchParams({ session: sessionFilter });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -117,15 +144,30 @@ const WordDisplays = () => {
           </div>
         </div>
 
-        {sessionFilter && (
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-sm text-muted-foreground">Filtering by session:</span>
-            <Badge variant="secondary" className="font-mono text-xs">
-              {sessionFilter.slice(0, 8)}...
-            </Badge>
-            <Button variant="ghost" size="sm" onClick={clearFilter} className="h-6 w-6 p-0">
-              <X className="w-3 h-3" />
-            </Button>
+        {(sessionFilter || wordFilter) && (
+          <div className="flex items-center gap-2 mb-4 flex-wrap">
+            {wordFilter && (
+              <>
+                <span className="text-sm text-muted-foreground">Word:</span>
+                <Badge variant="secondary" className="font-serif text-xs">
+                  {wordFilter}
+                </Badge>
+                <Button variant="ghost" size="sm" onClick={clearWordFilter} className="h-6 w-6 p-0">
+                  <X className="w-3 h-3" />
+                </Button>
+              </>
+            )}
+            {sessionFilter && (
+              <>
+                <span className="text-sm text-muted-foreground">Session:</span>
+                <Badge variant="secondary" className="font-mono text-xs">
+                  {sessionFilter.slice(0, 8)}...
+                </Badge>
+                <Button variant="ghost" size="sm" onClick={clearSessionFilter} className="h-6 w-6 p-0">
+                  <X className="w-3 h-3" />
+                </Button>
+              </>
+            )}
           </div>
         )}
 
@@ -149,8 +191,13 @@ const WordDisplays = () => {
               ) : (
                 wordDisplays.map((display) => (
                   <TableRow key={display.id}>
-                    <TableCell className="font-serif font-medium">
-                      {display.word}
+                    <TableCell>
+                      <button
+                        onClick={() => handleWordClick(display.word)}
+                        className="font-serif font-medium text-primary hover:underline cursor-pointer"
+                      >
+                        {display.word}
+                      </button>
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
                       {formatDate(display.created_at)}
