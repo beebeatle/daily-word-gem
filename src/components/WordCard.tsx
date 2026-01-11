@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Word, getBookSearchUrl } from "@/data/words";
 import { motion } from "framer-motion";
+import { format } from "date-fns";
 
-import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles } from "lucide-react";
+import { Volume2, ChevronDown, ThumbsUp, ThumbsDown, Sparkles, Star, Calendar } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,9 +26,10 @@ interface WordCardProps {
   word: Word;
   onCategoryChange?: (category: string) => void;
   isFilterActive?: boolean;
+  featuredDate?: string;
 }
 
-const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => {
+const WordCard = ({ word, onCategoryChange, isFilterActive, featuredDate }: WordCardProps) => {
   const { logAction } = useActivityLog();
   const { counts, userReaction, handleReaction, loading } = useWordReactions(word.word);
   const [quizOpen, setQuizOpen] = useState(false);
@@ -65,6 +67,28 @@ const WordCard = ({ word, onCategoryChange, isFilterActive }: WordCardProps) => 
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className="word-card max-w-2xl mx-auto"
     >
+      {/* Featured Word of the Day Badge */}
+      {featuredDate && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center justify-center gap-2 mb-6"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+            <Star className="w-4 h-4 text-primary fill-primary" />
+            <span className="font-sans text-sm font-medium text-primary">
+              Word of the Day
+            </span>
+            <span className="text-primary/60">•</span>
+            <span className="inline-flex items-center gap-1 text-sm text-primary/80">
+              <Calendar className="w-3.5 h-3.5" />
+              {format(new Date(featuredDate + "T00:00:00"), "MMMM d, yyyy")}
+            </span>
+          </div>
+        </motion.div>
+      )}
+
       {/* Word Header */}
       <div className="text-center mb-8">
         <motion.h1

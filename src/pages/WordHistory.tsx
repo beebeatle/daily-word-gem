@@ -25,6 +25,7 @@ const WordHistory = () => {
   const [history, setHistory] = useState<WordOfTheDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
   useEffect(() => {
@@ -57,10 +58,11 @@ const WordHistory = () => {
     return words.find((w) => w.word === wordText);
   };
 
-  const handleWordClick = (wordText: string) => {
+  const handleWordClick = (wordText: string, date: string) => {
     const wordDetails = getWordDetails(wordText);
     if (wordDetails) {
       setSelectedWord(wordDetails);
+      setSelectedDate(date);
       setSheetOpen(true);
     }
   };
@@ -155,7 +157,7 @@ const WordHistory = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
                       className="bg-card border border-border rounded-xl p-6 cursor-pointer hover:border-primary/50 hover:shadow-md transition-all duration-200"
-                      onClick={() => handleWordClick(item.word)}
+                      onClick={() => handleWordClick(item.word, item.date)}
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
@@ -215,7 +217,7 @@ const WordHistory = () => {
             <SheetTitle>{selectedWord?.word}</SheetTitle>
           </SheetHeader>
           <div className="pt-6 pb-12">
-            {selectedWord && <WordCard word={selectedWord} />}
+            {selectedWord && <WordCard word={selectedWord} featuredDate={selectedDate || undefined} />}
           </div>
         </SheetContent>
       </Sheet>
