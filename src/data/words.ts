@@ -1,3 +1,9 @@
+export interface Quote {
+  text: string;
+  bookTitle: string;
+  author: string;
+}
+
 export interface Word {
   word: string;
   pronunciation: string;
@@ -6,6 +12,7 @@ export interface Word {
   example: string;
   etymology: string;
   type: 'general' | 'academic' | 'creative' | 'business' | 'mindfulness';
+  quote?: Quote;
 }
 
 export const words: Word[] = [
@@ -17,7 +24,26 @@ export const words: Word[] = [
     definition: "The occurrence of events by chance in a happy or beneficial way; a fortunate accident that leads to unexpected discovery.",
     example: "It was pure serendipity that she found her dream job while getting coffee at a café.",
     etymology: "Coined by Horace Walpole in 1754, from the Persian fairy tale 'The Three Princes of Serendip' whose heroes made discoveries by accident.",
-    type: "general"
+    type: "general",
+    quote: {
+      text: "In the fields of observation chance favors only the prepared mind.",
+      bookTitle: "Lecture at the University of Lille",
+      author: "Louis Pasteur"
+    }
+  },
+  {
+    word: "Resilient",
+    pronunciation: "/rɪˈzɪliənt/",
+    partOfSpeech: "adjective",
+    definition: "Able to recover quickly from difficulties; having the capacity to spring back into shape after being bent or stretched.",
+    example: "Despite facing numerous setbacks, she remained resilient and eventually achieved her goals.",
+    etymology: "From Latin resilire, meaning 'to leap back,' from re- (back) + salire (to jump).",
+    type: "general",
+    quote: {
+      text: "The human capacity for burden is like bamboo—far more flexible than you'd ever believe at first glance.",
+      bookTitle: "Memoirs of a Geisha",
+      author: "Arthur Golden"
+    }
   },
   {
     word: "Resilient",
@@ -35,7 +61,12 @@ export const words: Word[] = [
     definition: "A sentimental longing for the past; a bittersweet affection for a period, place, or experience from one's memory.",
     example: "The smell of cinnamon cookies filled him with nostalgia for childhood holidays.",
     etymology: "From Greek nostos (homecoming) + algos (pain), originally coined as a medical term for homesickness in 1688.",
-    type: "general"
+    type: "general",
+    quote: {
+      text: "Nostalgia is a file that removes the rough edges from the good old days.",
+      bookTitle: "The Summing Up",
+      author: "W. Somerset Maugham"
+    }
   },
   {
     word: "Wanderlust",
@@ -44,7 +75,26 @@ export const words: Word[] = [
     definition: "A strong, innate desire to travel and explore the world; an irresistible urge to wander.",
     example: "Her wanderlust led her to quit her office job and backpack through South America.",
     etymology: "From German Wanderlust, combining wandern (to wander) + Lust (desire), adopted into English in the early 20th century.",
-    type: "general"
+    type: "general",
+    quote: {
+      text: "Not all those who wander are lost.",
+      bookTitle: "The Fellowship of the Ring",
+      author: "J.R.R. Tolkien"
+    }
+  },
+  {
+    word: "Enigma",
+    pronunciation: "/ɪˈnɪɡmə/",
+    partOfSpeech: "noun",
+    definition: "A person or thing that is mysterious, puzzling, or difficult to understand.",
+    example: "Despite years of friendship, he remained an enigma—always surprising and never predictable.",
+    etymology: "From Greek ainigma, from ainissesthai (to speak in riddles), from ainos (fable).",
+    type: "general",
+    quote: {
+      text: "I am a riddle wrapped in an enigma, shrouded in mystery.",
+      bookTitle: "The Lovely Bones",
+      author: "Alice Sebold"
+    }
   },
   {
     word: "Enigma",
@@ -62,7 +112,12 @@ export const words: Word[] = [
     definition: "Fluent, persuasive, and expressive in speaking or writing; able to convey meaning beautifully.",
     example: "Her eloquent speech moved the audience to tears and standing ovations.",
     etymology: "From Latin eloquens, from eloqui (to speak out), combining e- (out) + loqui (to speak).",
-    type: "general"
+    type: "general",
+    quote: {
+      text: "Eloquence is the power to translate a truth into language perfectly intelligible to the person to whom you speak.",
+      bookTitle: "Letters and Social Aims",
+      author: "Ralph Waldo Emerson"
+    }
   },
 
   // === ACADEMIC VOCABULARY ===
@@ -129,7 +184,12 @@ export const words: Word[] = [
     definition: "Lasting for only a short time; fleeting and transitory, like cherry blossoms or morning dew.",
     example: "The ephemeral beauty of the sunset reminded her to appreciate life's passing moments.",
     etymology: "From Greek ephēmeros, meaning 'lasting only a day,' from epi (on) + hēmera (day).",
-    type: "creative"
+    type: "creative",
+    quote: {
+      text: "We are all ephemeral creatures, destined to leave only traces of ourselves behind.",
+      bookTitle: "The Name of the Wind",
+      author: "Patrick Rothfuss"
+    }
   },
   {
     word: "Mellifluous",
@@ -138,7 +198,12 @@ export const words: Word[] = [
     definition: "Sweet-sounding; pleasingly smooth and musical to the ear, often describing a voice or melody.",
     example: "His mellifluous voice made even the most mundane announcements sound like poetry.",
     etymology: "From Latin mellifluus, from mel (honey) + fluere (to flow), literally 'flowing with honey.'",
-    type: "creative"
+    type: "creative",
+    quote: {
+      text: "Her voice was low and mellifluous, the kind of voice that could convince you of anything.",
+      bookTitle: "The Great Gatsby",
+      author: "F. Scott Fitzgerald"
+    }
   },
   {
     word: "Ethereal",
@@ -183,7 +248,12 @@ export const words: Word[] = [
     definition: "The pleasant, earthy smell produced when rain falls on dry soil.",
     example: "After months of drought, the petrichor that followed the first rain was intoxicating.",
     etymology: "Coined in 1964 from Greek petra (stone) + ichor (the fluid flowing in the veins of the gods).",
-    type: "creative"
+    type: "creative",
+    quote: {
+      text: "The rain came down in sheets, and with it came the petrichor, that ancient perfume of the earth.",
+      bookTitle: "The Overstory",
+      author: "Richard Powers"
+    }
   },
 
   // === BUSINESS VOCABULARY ===
@@ -250,7 +320,12 @@ export const words: Word[] = [
     definition: "Mental calmness and composure, especially in difficult situations; evenness of temper.",
     example: "She faced the crisis with remarkable equanimity, never losing her composure.",
     etymology: "From Latin aequanimitas, from aequus (even) + animus (mind, spirit).",
-    type: "mindfulness"
+    type: "mindfulness",
+    quote: {
+      text: "Equanimity arises when we accept the way things are.",
+      bookTitle: "Wherever You Go, There You Are",
+      author: "Jon Kabat-Zinn"
+    }
   },
   {
     word: "Tranquil",
@@ -259,7 +334,12 @@ export const words: Word[] = [
     definition: "Free from disturbance; calm, serene, and peaceful in quality or state.",
     example: "The tranquil lake reflected the mountains like a perfect mirror at dawn.",
     etymology: "From Latin tranquillus (calm, still), possibly related to trans- (across) + quies (rest).",
-    type: "mindfulness"
+    type: "mindfulness",
+    quote: {
+      text: "Tranquil pleasures last the longest; we are not fitted to bear the burden of great joys.",
+      bookTitle: "Letters from a Stoic",
+      author: "Seneca"
+    }
   },
   {
     word: "Satori",
