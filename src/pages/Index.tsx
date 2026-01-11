@@ -8,6 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { Shuffle, Lightbulb } from "lucide-react";
 import { Link } from "react-router-dom";
 import AboutDropdown from "@/components/AboutDropdown";
+import { FeedbackDialog } from "@/components/FeedbackDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { useActivityLog } from "@/hooks/useActivityLogger";
@@ -112,6 +113,7 @@ const Index = () => {
         {/* Left side links */}
         <div className="flex items-center gap-2">
           <AboutDropdown />
+          <FeedbackDialog />
           <Tooltip>
             <TooltipTrigger asChild>
               <a
