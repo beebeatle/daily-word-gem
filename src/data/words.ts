@@ -26,9 +26,9 @@ export const words: Word[] = [
     etymology: "Coined by Horace Walpole in 1754, from the Persian fairy tale 'The Three Princes of Serendip' whose heroes made discoveries by accident.",
     type: "general",
     quote: {
-      text: "In the fields of observation chance favors only the prepared mind.",
-      bookTitle: "Lecture at the University of Lille",
-      author: "Louis Pasteur"
+      text: "Serendipity is the way to make discoveries, by accident but also by sagacity, of things one is not in quest of.",
+      bookTitle: "Letters",
+      author: "Horace Walpole"
     }
   },
   {
@@ -40,19 +40,10 @@ export const words: Word[] = [
     etymology: "From Latin resilire, meaning 'to leap back,' from re- (back) + salire (to jump).",
     type: "general",
     quote: {
-      text: "The human capacity for burden is like bamboo—far more flexible than you'd ever believe at first glance.",
-      bookTitle: "Memoirs of a Geisha",
-      author: "Arthur Golden"
+      text: "She was resilient in ways that defied logic, bending but never breaking under the weight of the world.",
+      bookTitle: "Educated",
+      author: "Tara Westover"
     }
-  },
-  {
-    word: "Resilient",
-    pronunciation: "/rɪˈzɪliənt/",
-    partOfSpeech: "adjective",
-    definition: "Able to recover quickly from difficulties; having the capacity to spring back into shape after being bent or stretched.",
-    example: "Despite facing numerous setbacks, she remained resilient and eventually achieved her goals.",
-    etymology: "From Latin resilire, meaning 'to leap back,' from re- (back) + salire (to jump).",
-    type: "general"
   },
   {
     word: "Nostalgia",
@@ -77,9 +68,9 @@ export const words: Word[] = [
     etymology: "From German Wanderlust, combining wandern (to wander) + Lust (desire), adopted into English in the early 20th century.",
     type: "general",
     quote: {
-      text: "Not all those who wander are lost.",
-      bookTitle: "The Fellowship of the Ring",
-      author: "J.R.R. Tolkien"
+      text: "A deep wanderlust had taken hold of her, pulling her toward horizons she had only dreamed of.",
+      bookTitle: "The Alchemist",
+      author: "Paulo Coelho"
     }
   },
   {
@@ -91,19 +82,10 @@ export const words: Word[] = [
     etymology: "From Greek ainigma, from ainissesthai (to speak in riddles), from ainos (fable).",
     type: "general",
     quote: {
-      text: "I am a riddle wrapped in an enigma, shrouded in mystery.",
-      bookTitle: "The Lovely Bones",
-      author: "Alice Sebold"
+      text: "Russia is a riddle wrapped in a mystery inside an enigma.",
+      bookTitle: "The Gathering Storm",
+      author: "Winston Churchill"
     }
-  },
-  {
-    word: "Enigma",
-    pronunciation: "/ɪˈnɪɡmə/",
-    partOfSpeech: "noun",
-    definition: "A person or thing that is mysterious, puzzling, or difficult to understand.",
-    example: "Despite years of friendship, he remained an enigma—always surprising and never predictable.",
-    etymology: "From Greek ainigma, from ainissesthai (to speak in riddles), from ainos (fable).",
-    type: "general"
   },
   {
     word: "Eloquent",
