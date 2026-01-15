@@ -5,7 +5,7 @@ import UserMenu from "@/components/UserMenu";
 import { motion } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Shuffle, Lightbulb } from "lucide-react";
+import { Shuffle } from "lucide-react";
 import { Link } from "react-router-dom";
 import AboutDropdown from "@/components/AboutDropdown";
 import { FeedbackDialog } from "@/components/FeedbackDialog";
@@ -13,7 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { useActivityLog } from "@/hooks/useActivityLogger";
 
-const NOLT_URL = "https://worddelight.nolt.io";
+
 
 const CATEGORY_STORAGE_KEY = 'worddelight_active_category';
 
@@ -114,21 +114,6 @@ const Index = () => {
         <div className="flex items-center gap-2">
           <AboutDropdown />
           <FeedbackDialog />
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <a
-                href={NOLT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center justify-center w-8 h-8 rounded-full bg-secondary/80 hover:bg-secondary text-secondary-foreground transition-all duration-300"
-              >
-                <Lightbulb className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-              </a>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Request a new feature</p>
-            </TooltipContent>
-          </Tooltip>
         </div>
 
         <UserMenu />
